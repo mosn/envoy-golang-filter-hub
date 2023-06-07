@@ -21,4 +21,5 @@ vendor
 
 .idea/
 .vscode/
+*.ymal
 

@@ -1,7 +1,5 @@
 package config
 
-import "time"
-
 type GlobalConfig struct {
 	Name    string `yaml:"name" default:"envoy-go-filter-hub" validate:"required"`
 	Host    string `yaml:"host" default:"0.0.0.0" validate:"required,ip"`
@@ -27,20 +25,20 @@ type JWTConfig struct {
 }
 
 type MysqlConfig struct {
-	Address     string        `yaml:"address" default:"127.0.0.1:3306" validate:"required"`
-	Username    string        `yaml:"username" default:"root" validate:"required"`
-	Password    string        `yaml:"password" default:"12345678"`
-	DB          string        `yaml:"DB" default:"filter_hub" validate:"required"`
-	MaxIdle     int           `yaml:"maxIdle" default:"20"`
-	MaxOpen     int           `yaml:"maxOpen" default:"20"`
-	MaxLifetime time.Duration `yaml:"maxLifetime" default:"100"`
+	Address  string `yaml:"address" default:"127.0.0.1:3306" validate:"required"`
+	Username string `yaml:"username" default:"root" validate:"required"`
+	Password string `yaml:"password" default:"12345678"`
+	DB       string `yaml:"DB" default:"filter_hub" validate:"required"`
+	//MaxIdle     int           `yaml:"maxIdle" default:"20"`
+	//MaxOpen     int           `yaml:"maxOpen" default:"20"`
+	//MaxLifetime time.Duration `yaml:"maxLifetime" default:"100"`
 }
 
 type RedisConfig struct {
-	Address     string        `yaml:"address" default:"127.0.0.1:6379" validate:"required"`
-	Password    string        `yaml:"password" default:"-"`
-	DB          int           `yaml:"DB" default:"-"`
-	MaxIdle     int           `yaml:"maxIdle" default:"20"`
-	MaxOpen     int           `yaml:"maxOpen" default:"20"`
-	IdleTimeOut time.Duration `yaml:"idleTimeOut" default:"100"`
+	Address  string `yaml:"address" default:"127.0.0.1:6379" validate:"required"`
+	Password string `yaml:"password" default:"-"`
+	DB       int    `yaml:"DB" default:"-"`
+	//MaxIdle     int           `yaml:"maxIdle" default:"20"`
+	//MaxOpen     int           `yaml:"maxOpen" default:"20"`
+	//IdleTimeOut time.Duration `yaml:"idleTimeOut" default:"100"`
 }
