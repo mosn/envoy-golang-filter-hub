@@ -28,7 +28,7 @@ type MysqlConfig struct {
 	Address  string `yaml:"address" default:"127.0.0.1:3306" validate:"required"`
 	Username string `yaml:"username" default:"root" validate:"required"`
 	Password string `yaml:"password" default:"12345678"`
-	DB       string `yaml:"DB" default:"filter_hub" validate:"required"`
+	DBName   string `yaml:"DBName" default:"filter_hub" validate:"required"`
 	//MaxIdle     int           `yaml:"maxIdle" default:"20"`
 	//MaxOpen     int           `yaml:"maxOpen" default:"20"`
 	//MaxLifetime time.Duration `yaml:"maxLifetime" default:"100"`

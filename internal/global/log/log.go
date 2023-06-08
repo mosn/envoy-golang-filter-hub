@@ -20,13 +20,13 @@ func NameSpace(name string) *zap.Logger {
 
 func Init() {
 	switch config.Get().RunMode {
-	case config.ModeDebug:
+	case config.ModeDebug: // 开发模式 日志输出到终端
 		core := zapcore.NewTee(
 			zapcore.NewCore(getEncoder(),
 				zapcore.Lock(os.Stdout), zapcore.DebugLevel),
 		)
 		Logger = zap.New(core, zap.AddCaller())
-	case config.ModeRelease:
+	case config.ModeRelease: // 生产模式 日志输出到文件
 		fileLog()
 	}
 }
