@@ -1,11 +1,11 @@
 package config
 
 type GlobalConfig struct {
-	Name    string `yaml:"name" default:"envoy-go-filter-hub" validate:"required"`
-	Host    string `yaml:"host" default:"0.0.0.0" validate:"required,ip"`
-	Port    string `yaml:"port" default:"8080" validate:"required"`
-	RunMode string `yaml:"runMode" default:"debug" validate:"required,oneof=debug release"`
-	Prefix  string `yaml:"prefix" default:"-"`
+	Name    string  `yaml:"name" default:"envoy-go-filter-hub" validate:"required"`
+	Host    string  `yaml:"host" default:"0.0.0.0" validate:"required,ip"`
+	Port    string  `yaml:"port" default:"8080" validate:"required"`
+	RunMode RunMode `yaml:"runMode" default:"debug" validate:"required,oneof=debug release"`
+	Prefix  string  `yaml:"prefix" default:"-"`
 
 	Log   LogConfig   `yaml:"log"`
 	JWT   JWTConfig   `yaml:"jwt"`
@@ -42,3 +42,24 @@ type RedisConfig struct {
 	//MaxOpen     int           `yaml:"maxOpen" default:"20"`
 	//IdleTimeOut time.Duration `yaml:"idleTimeOut" default:"100"`
 }
+
+/*
+RunMode debug|release
+debug:
+ 1. log in console with colorful text
+ 2. log request and response detail
+ 3. set gin in gin.DebugMode
+ 4. zap log level is zapcore.DebugLevel
+
+release:
+ 1. log in file with json format
+ 2. log request and response summary
+ 3. set gin in gin.ReleaseMode
+ 4. zap log level is zapcore.InfoLevel
+*/
+type RunMode string
+
+const (
+	ModeDebug   RunMode = "debug"
+	ModeRelease RunMode = "release"
+)

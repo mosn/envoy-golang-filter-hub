@@ -8,10 +8,11 @@ import (
 	"github.com/spf13/viper"
 	"gopkg.in/yaml.v3"
 	"log"
+
 	"os"
 )
 
-var configPath = "./config/config.yaml"
+var configPath = "config/config.yaml"
 var c = new(GlobalConfig)
 
 func Init() {
@@ -20,6 +21,7 @@ func Init() {
 	}
 
 	if !utils.FileExist(configPath) {
+		log.Println("Config file not exist")
 		gen()
 		os.Exit(0)
 	}

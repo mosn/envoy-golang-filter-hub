@@ -17,14 +17,6 @@ func FileExist(path string) bool {
 }
 
 func FileCreate(path string, content []byte) error {
-	file, err := os.Create(path)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-	_, err = file.Write(content)
-	if err != nil {
-		return err
-	}
-	return nil
+
+	return os.WriteFile(path, content, 0644)
 }
