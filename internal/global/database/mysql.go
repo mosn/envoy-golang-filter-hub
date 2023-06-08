@@ -8,8 +8,8 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-var db *gorm.DB
-var models []any // TODO: PerInit
+var DB *gorm.DB
+var Models []any // TODO: PerInit
 
 func Init() {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
@@ -19,7 +19,7 @@ func Init() {
 		config.Get().Mysql.DBName,
 	)
 	var err error
-	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true, // 使用单数表名
 		},
@@ -30,7 +30,7 @@ func Init() {
 	}
 
 	// 自动建表
-	err = db.AutoMigrate(models...)
+	err = DB.AutoMigrate(Models...)
 	if err != nil {
 		panic(err)
 	}

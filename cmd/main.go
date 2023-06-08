@@ -2,6 +2,7 @@ package main
 
 import (
 	"envoy-golang-filter-hub/config"
+	"envoy-golang-filter-hub/internal/global/cache"
 	"envoy-golang-filter-hub/internal/global/database"
 	"envoy-golang-filter-hub/internal/global/log"
 	"envoy-golang-filter-hub/utils"
@@ -16,7 +17,7 @@ func init() {
 		config.Init()
 		log.Init()
 		database.Init()
-		//cache.Init()
+		cache.Init()
 		//mq.Init()
 		//cron.Init()
 	})
