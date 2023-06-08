@@ -41,6 +41,7 @@ func load() {
 			log.Println(err)
 		}
 	})
+
 }
 
 func gen() {
@@ -61,6 +62,7 @@ func Get() GlobalConfig {
 
 func validate() {
 	if err := validator.New().Struct(c); err != nil {
-		panic(err)
+		log.Println(err)
+		os.Exit(1)
 	}
 }

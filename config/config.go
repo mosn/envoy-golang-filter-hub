@@ -11,6 +11,7 @@ type GlobalConfig struct {
 	JWT   JWTConfig   `yaml:"jwt"`
 	Mysql MysqlConfig `yaml:"mysql"`
 	Redis RedisConfig `yaml:"redis"`
+	OAuth OAuthConfig `yaml:"oauth"`
 }
 
 type LogConfig struct {
@@ -41,6 +42,13 @@ type RedisConfig struct {
 	//MaxIdle     int           `yaml:"maxIdle" default:"20"`
 	//MaxOpen     int           `yaml:"maxOpen" default:"20"`
 	//IdleTimeOut time.Duration `yaml:"idleTimeOut" default:"100"`
+}
+
+type OAuthConfig struct {
+	ClientID     string `yaml:"clientID" default:"" validate:"required"`
+	ClientSecret string `yaml:"clientSecret" default:"" validate:"required"`
+	RedirectURL  string `yaml:"redirectURL" default:"http://localhost:8080/user/oauth/callback" validate:"required,url"`
+	Scope        string `yaml:"scope" default:"user:email" validate:"required"`
 }
 
 /*
