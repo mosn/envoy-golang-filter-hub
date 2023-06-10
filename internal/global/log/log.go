@@ -77,10 +77,9 @@ func pathExists(path string) bool {
 
 func getLogWriter(fileName string) zapcore.WriteSyncer {
 	dir, _ := os.Getwd() // 获取项目目录
-	sperator0 := os.PathSeparator
-	sperator := string(sperator0)
+	separator := string(os.PathSeparator)
 	// 	log 存放路径
-	dir = dir + sperator + "runtime" + sperator + "logs"
+	dir = dir + separator + "runtime" + separator + "logs"
 	if !pathExists(dir) {
 		err := os.MkdirAll(dir, os.ModePerm)
 		if err != nil {
@@ -88,11 +87,11 @@ func getLogWriter(fileName string) zapcore.WriteSyncer {
 		}
 	}
 	lumberJackLogger := &lumberjack.Logger{
-		Filename:   dir + sperator + fileName, // 日志文件路径
-		MaxSize:    5,                         // 设置日志文件最大尺寸
-		MaxBackups: 5,                         // 设置日志文件最多保存多少个备份
-		MaxAge:     30,                        // 设置日志文件最多保存多少天
-		Compress:   true,                      // 是否压缩 disabled by default
+		Filename:   dir + separator + fileName, // 日志文件路径
+		MaxSize:    5,                          // 设置日志文件最大尺寸
+		MaxBackups: 5,                          // 设置日志文件最多保存多少个备份
+		MaxAge:     30,                         // 设置日志文件最多保存多少天
+		Compress:   true,                       // 是否压缩 disabled by default
 	}
 	// 返回同步方式写入日志文件的zapcore.WriteSyncer
 	return zapcore.AddSync(lumberJackLogger)

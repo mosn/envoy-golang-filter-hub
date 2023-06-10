@@ -2,12 +2,19 @@ package controller
 
 import (
 	"envoy-golang-filter-hub/internal/global/log"
-	"envoy-golang-filter-hub/internal/module/user/handler/dto"
 )
 
-func (c UserController) Ping(req dto.PingRequest) (dto.PingReply, error) {
+type PingRequest struct {
+	Msg string `json:"msg"`
+}
+
+type PingReply struct {
+	Msg string `json:"msg"`
+}
+
+func (c UserController) Ping(req PingRequest) (PingReply, error) {
 	log.NameSpace("user.controller.Ping").Info("Ping")
-	return dto.PingReply{
+	return PingReply{
 		Msg: "Hello World!",
 	}, nil
 }
