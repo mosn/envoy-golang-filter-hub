@@ -9,9 +9,8 @@ func InitUserRouter(r *gin.RouterGroup) gin.IRoutes {
 	userHandler := handler.NewUserHandler()
 	router := r.Group("/user")
 	{
-		router.GET("/ping", userHandler.Ping)
 		router.GET("/oauth/login", userHandler.OauthLogin)
-		router.GET("/oauth/callback", userHandler.OauthCallback)
+		router.GET("/oauth/callback", userHandler.OAuthCallback)
 	}
 	return r
 }

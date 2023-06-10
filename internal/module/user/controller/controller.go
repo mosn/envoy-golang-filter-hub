@@ -1,12 +1,19 @@
 package controller
 
+import (
+	"context"
+)
+
 type IUserController interface {
-	Ping(req PingRequest) (PingReply, error)
+	OAuthCallback(req OAuthCallbackRequest) (*OAuthCallbackResponse, error)
 }
 
 type UserController struct {
+	ctx context.Context
 }
 
-func NewUserController() IUserController {
-	return UserController{}
+func NewUserController(ctx context.Context) IUserController {
+	return UserController{
+		ctx: ctx,
+	}
 }

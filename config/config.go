@@ -58,12 +58,14 @@ debug:
  2. log request and response detail
  3. set gin in gin.DebugMode
  4. zap log level is zapcore.DebugLevel
+ 5. server error won't be masked ( see errs.Fail )
 
 release:
  1. log in file with json format
  2. log request and response summary
  3. set gin in gin.ReleaseMode
  4. zap log level is zapcore.InfoLevel
+ 5. server error will be masked ( see errs.Fail )
 */
 type RunMode string
 
