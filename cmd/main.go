@@ -25,7 +25,7 @@ func init() {
 	})
 }
 
-//TODO: Pflag + Viper + Cobra
+//TODO: Pflag + Viper + Cobra + graceful shutdown
 
 func main() {
 	r := InitRouters()

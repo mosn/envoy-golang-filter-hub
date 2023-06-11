@@ -12,8 +12,6 @@ type OAuthCallbackRequest struct {
 }
 
 type OAuthCallbackResponse struct {
-	//AccessToken string `json:"access_token"`
-	//Items any `json:"items"`
 	Token string `json:"token"`
 }
 

@@ -5,7 +5,7 @@ import (
 )
 
 type IUserController interface {
-	OAuthCallback(req OAuthCallbackRequest) (*OAuthCallbackResponse, error)
+	OAuthCallback(OAuthCallbackRequest) (*OAuthCallbackResponse, error)
 }
 
 type UserController struct {
