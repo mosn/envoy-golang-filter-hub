@@ -2,11 +2,11 @@ package controller
 
 type (
 	PluginDetail struct {
-		Repository string    `json:"repository"`
-		README     string    `json:"readme"`
-		CreateAt   int64     `json:"create_at"`
-		UpdatedAt  int64     `json:"updated_at"`
-		Versions   []Version `json:"versions"`
+		Repository string `json:"repository"`
+		//README     string    `json:"readme"`
+		CreateAt  int64     `json:"create_at"`
+		UpdatedAt int64     `json:"updated_at"`
+		Versions  []Version `json:"versions"`
 	}
 
 	Version struct {
