@@ -30,6 +30,10 @@ func (e *Error) WithDetails(details ...string) *Error {
 	return e
 }
 
+func (e *Error) Warp(err error) *Error {
+	return e.WithDetails(err.Error())
+}
+
 //// Internal 向前端返回为内部错误，并记录原始错误
 //func (e *Error) Internal(ctx context.Context, rawErr error) *Error {
 //	newErr := ServerInternal.SetLogInfo("errType", e.Error())

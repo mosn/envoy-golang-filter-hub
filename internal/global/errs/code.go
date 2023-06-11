@@ -31,6 +31,8 @@ var (
 
 // 500 INTERNAL ERROR
 var (
-	serverInternal   = newError(50001, "Server internal error")
-	Code2TokenFailed = newError(50002, "Code to token failed")
+	serverInternal          = newError(50001, "Server internal error")
+	Code2GitHubTokenFailed  = newError(50002, "Code to GitHub token failed")
+	GetGitHubUserInfoFailed = newError(50003, "Get GitHub user info failed")
+	GenerateTokenFailed     = newError(50004, "Generate token failed")
 )
