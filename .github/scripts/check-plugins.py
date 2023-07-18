@@ -1,7 +1,5 @@
 import os
 import sys
-
-import semver
 import yaml
 import subprocess
 
@@ -25,7 +23,7 @@ def check_each_plugin(plugin_dir, is_new_plugin):
             errors.append(f"错误：插件 {plugin_dir} 的版本号不能为空")
         else:
             current_version = get_current_version(plugin_dir)
-            if current_version and semver.compare(plugin.get('version'), current_version) <= 0:
+            if current_version and plugin.get('version') <= current_version:
                 errors.append(f"错误：插件 {plugin_dir} 的版本号必须比当前版本号 {current_version} 更高")
 
     return errors
@@ -43,7 +41,7 @@ def get_changed_plugins(files):
 
 def get_current_version(plugin_dir):
     # 使用 Git 命令获取之前的版本号
-    command = f"git show HEAD:{plugin_dir}/metadata.yaml"
+    command = f"git show HEAD:plugins/{os.path.relpath(plugin_dir, start='plugins')}/metadata.yaml"
     try:
         result = subprocess.check_output(command, shell=True, text=True)
         metadata = yaml.safe_load(result)
@@ -55,9 +53,7 @@ def get_current_version(plugin_dir):
 
 
 def main(plugins_dir):
-    # 从环境变量中获取受影响的文件列表
     changed_files = os.getenv('CHANGED_FILES').split() if os.getenv('CHANGED_FILES') else []
-    # 确定受影响的插件目录
     changed_plugins = get_changed_plugins(changed_files)
 
     errors = []
