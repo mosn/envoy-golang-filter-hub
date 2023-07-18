@@ -1,5 +1,5 @@
 syntax = "proto3";
 
 message PluginConfig {
-  // 添加其他字段...
+  // 添加字段...
 }
