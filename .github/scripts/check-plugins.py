@@ -1,5 +1,7 @@
 import os
 import sys
+
+import semver
 import yaml
 import subprocess
 
@@ -23,7 +25,7 @@ def check_each_plugin(plugin_dir, is_new_plugin):
             errors.append(f"错误：插件 {plugin_dir} 的版本号不能为空")
         else:
             current_version = get_current_version(plugin_dir)
-            if current_version and plugin.get('version') <= current_version:
+            if current_version and semver.compare(plugin.get('version'), current_version) <= 0:
                 errors.append(f"错误：插件 {plugin_dir} 的版本号必须比当前版本号 {current_version} 更高")
 
     return errors
