@@ -1,0 +1,9 @@
+.markdown-body {
+  @apply p-5 md:px-10 lg:px-20;
+}
+
+@import 'github-markdown-light';
+
+.dark {
+  @import 'github-markdown-dark';
+}
