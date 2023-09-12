@@ -30,7 +30,7 @@ onMounted(() => {
             <thead class="special-bg">
                 <tr>
                     <th class="text-left"><span>Version</span></th>
-                    <th class="text-left"><span>Last Update</span></th>
+                    <th class="text-left"><span>Created At</span></th>
                     <th class="text-right"><span>Downloads</span></th>
                 </tr>
             </thead>
@@ -41,7 +41,7 @@ onMounted(() => {
                         <a class="commit-link" :href="version.commit_url" target="_blank" rel="noopener noreferrer">{{
                             shortenHash(version.commit_hash) }}</a>
                     </td>
-                    <td class="text-left"><span class="opacity-70">{{ formatDate(version.last_update) }}</span></td>
+                    <td class="text-left"><span class="opacity-70">{{ formatDate(version.created_at) }}</span></td>
                     <td class="text-right space-x-3">
                         <a class="download-link" v-for="download of version.downloads" :key="download.type"
                             :href="download.url" target="_blank" rel="noopener noreferrer">{{ download.type }}</a>

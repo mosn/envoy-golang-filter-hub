@@ -31,7 +31,7 @@ export type PluginData = PluginItem & {
 
 export interface PluginVersionItem {
   version: string
-  last_update: string
+  created_at: string
   commit_hash: string
   commit_url: string
   downloads: PluginDownloadItem[]
