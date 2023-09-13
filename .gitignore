@@ -16,13 +16,12 @@
 
 .idea
 
-logs
 vendor
 
 .idea/
 .vscode/
 
-web/backend/static
+web/output/*
 
 
 # Logs

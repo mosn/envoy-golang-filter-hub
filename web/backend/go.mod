@@ -1,11 +1,11 @@
 module envoy-go-fliter-hub
 
-go 1.20
+go 1.21
 
 require (
-	github.com/Masterminds/semver v1.5.0
 	github.com/go-git/go-git/v5 v5.8.1
-	gopkg.in/yaml.v2 v2.2.4
+	github.com/pkg/errors v0.9.1
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -23,6 +23,7 @@ require (
 	github.com/pjbgf/sha1cd v0.3.0 // indirect
 	github.com/sergi/go-diff v1.1.0 // indirect
 	github.com/skeema/knownhosts v1.2.0 // indirect
+	github.com/stretchr/testify v1.8.1 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	golang.org/x/crypto v0.11.0 // indirect
 	golang.org/x/mod v0.8.0 // indirect
