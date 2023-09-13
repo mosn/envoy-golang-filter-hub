@@ -8,7 +8,7 @@ type IParse interface {
 	Parse(repo *git.Repository) ([]Metadata, error)
 }
 
-var Parse parse
+var Parse IParse
 
 type parse struct{}
 

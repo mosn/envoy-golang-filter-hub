@@ -67,6 +67,7 @@ func (p parse) Parse(r *git.Repository) ([]Metadata, error) {
 		metadata.TagName = tagName
 		metadata.CommitHash = commit.Hash.String()
 		metadata.PathName = pathName
+		metadata.CreatedAt = commit.Author.When
 
 		// 将解析出的元数据添加到 ans 切片中
 		ans = append(ans, metadata)

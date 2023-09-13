@@ -1,7 +1,8 @@
 package template
 
 type PluginList struct {
-	Plugins []PluginBasic `json:"plugins"`
+	TotalCount int           `json:"total_count"`
+	Plugins    []PluginBasic `json:"plugins"`
 }
 
 type PluginBasic struct {
