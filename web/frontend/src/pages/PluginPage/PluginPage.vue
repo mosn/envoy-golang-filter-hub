@@ -21,13 +21,13 @@ const loading = computed({
 })
 const error = ref(true)
 const plugin = ref<PluginData>()
-const { path } = useRoute().params
+const { id } = useRoute().params
 
 const fetchPlugin = async () => {
     loading.value = true
     error.value = false
 
-    const result = await getPlugin(path as string)
+    const result = await getPlugin(id as string)
     if (!result) {
         error.value = true
     } else {
