@@ -38,7 +38,7 @@ func TestRenderIntoStruct(t *testing.T) {
 	}
 
 	// 调用待测试的方法
-	details, _ /*list*/, err := r.renderIntoStruct(metadata)
+	details, list, err := r.renderIntoStruct(metadata)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 	}
@@ -90,8 +90,8 @@ func TestRenderIntoStruct(t *testing.T) {
 		},
 	}
 
-	if !reflect.DeepEqual(details[0], expectedDetail) {
-		t.Errorf("Expected %v, but got %v", expectedList, details[0])
+	if !reflect.DeepEqual(list, expectedList) {
+		t.Errorf("Expected %v, but got %v", expectedList, list)
 	}
 
 }
