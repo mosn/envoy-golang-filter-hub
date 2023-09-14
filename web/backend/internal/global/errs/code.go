@@ -27,7 +27,8 @@ var (
 // 400 BAD REQUEST
 var (
 	//InvalidRequest = newError(40001, "无效的请求")
-	IndexNotFound = newError(40002, "索引不存在")
+	IndexNotFound  = newError(40002, "索引不存在")
+	PluginNotFound = newError(40003, "插件不存在")
 )
 
 // 500 INTERNAL ERROR

@@ -24,7 +24,7 @@ type render struct {
 
 func Init() {
 	Render = newRender(Config{
-		OutPutDir: config.Config.Repo.LocalRepoPath,
+		OutPutDir: config.Config.Repo.IndexOutPutPath,
 	})
 }
 

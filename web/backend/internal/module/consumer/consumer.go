@@ -3,12 +3,14 @@ package consumer
 import (
 	"envoy-go-fliter-hub/internal/global/logs"
 	"envoy-go-fliter-hub/internal/global/mq"
-	"envoy-go-fliter-hub/tools"
 )
 
 func Init() {
 	logger := logs.NameSpace("Consumer").Sugar()
-	tools.PanicIfErr(updateConsumer())
+	err := updateConsumer()
+	if err != nil {
+		panic(err)
+	}
 
 	go func() {
 		for {

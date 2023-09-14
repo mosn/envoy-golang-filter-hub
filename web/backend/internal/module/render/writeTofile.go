@@ -16,6 +16,7 @@ const (
 
 func (r render) writeToFile(details []template.PluginDetail, list template.PluginList) error {
 	err := tools.CreateDir(r.config.OutPutDir)
+	fmt.Println(r.config.OutPutDir)
 	if err != nil {
 		return err
 	}
