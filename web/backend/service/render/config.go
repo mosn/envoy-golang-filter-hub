@@ -1,5 +1,5 @@
 package render
 
 type Config struct {
-	OutPutPath string
+	OutPutDir string
 }

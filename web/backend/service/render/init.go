@@ -17,7 +17,12 @@ type render struct {
 	config Config
 }
 
-func (r render) writeToFile(details []template.PluginDetail, list template.PluginList) error {
-	//TODO implement me
-	panic("implement me")
+//
+//func Init(config Config) error {
+//	Render, err := newRender(config)
+//	return err
+//}
+
+func newRender(config Config) IRender {
+	return render{config: config}
 }
