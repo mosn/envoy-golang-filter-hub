@@ -1,6 +1,8 @@
 package tools
 
-import "os"
+import (
+	"os"
+)
 
 func FileExist(path string) bool {
 	_, err := os.Stat(path)
@@ -22,6 +24,17 @@ func Write(context []byte, path string) error {
 	return nil
 }
 
+func Read(path string) ([]byte, error) {
+	// 使用 os.ReadFile 读取文件内容
+	content, err := os.ReadFile(path)
+	if err != nil {
+		// 如果出现错误，返回 nil 切片和错误信息
+		return nil, err
+	}
+
+	// 成功时返回文件内容的字节切片
+	return content, nil
+}
 func CreateDir(path string) error {
 	err := os.MkdirAll(path, 0755)
 	if err != nil {

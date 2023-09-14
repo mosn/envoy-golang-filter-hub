@@ -15,6 +15,10 @@ const (
 )
 
 func (r render) writeToFile(details []template.PluginDetail, list template.PluginList) error {
+	err := tools.CreateDir(r.config.OutPutDir)
+	if err != nil {
+		return err
+	}
 
 	listBytes, err := json.MarshalIndent(list, "", "  ")
 	if err != nil {

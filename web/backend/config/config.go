@@ -12,15 +12,15 @@ type config struct {
 	Prefix string `envconfig:"PREFIX"`
 	Mode   string `envconfig:"Mode"` // 运行模式：Debug or Release
 
-	Log    Log    `envconfig:"LOG" prefix:"LOG_"`
-	Routes Routes `envconfig:"ROUTES" prefix:"ROUTES_"`
-	Repo   Repo   `envconfig:"REPO" prefix:"REPO_"`
+	Log Log `envconfig:"LOG" prefix:"LOG_"`
+	//Routes Routes `envconfig:"ROUTES" prefix:"ROUTES_"`
+	Repo Repo `envconfig:"REPO" prefix:"REPO_"`
 }
 
-type Routes struct {
-	Frontend string `envconfig:"FRONTEND"`
-	Backend  string `envconfig:"BACKEND"`
-}
+//type Routes struct {
+//	Frontend string `envconfig:"FRONTEND"`
+//	Backend  string `envconfig:"BACKEND"`
+//}
 
 type Log struct {
 	FilePath string `envconfig:"FILE_PATH"`

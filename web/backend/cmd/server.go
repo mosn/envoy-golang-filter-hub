@@ -6,6 +6,7 @@ import (
 	"envoy-go-fliter-hub/internal/global/logs"
 	"envoy-go-fliter-hub/internal/global/mq"
 	"envoy-go-fliter-hub/internal/module"
+	"envoy-go-fliter-hub/internal/module/server"
 	"github.com/gin-gonic/gin"
 	"sync"
 )
@@ -27,6 +28,7 @@ func Init() {
 func Run() {
 	r := gin.Default()
 	basic := r.Group("/" + config.Config.Prefix)
+	server.InitRouter(basic)
 
 	err := r.Run(config.Config.Host + ":" + config.Config.Port)
 	if err != nil {

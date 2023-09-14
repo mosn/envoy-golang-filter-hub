@@ -11,7 +11,7 @@ func Init() {
 		c := cron.New()
 
 		// 每天凌晨 0 点执行一次
-		_, err := c.AddFunc("@every 1day", mq.MQ.SendUpdateSignal)
+		_, err := c.AddFunc("0 3 * * *", mq.MQ.SendUpdateSignal)
 
 		if err != nil {
 			fmt.Println("添加定时任务失败:", err)
