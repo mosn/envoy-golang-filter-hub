@@ -4,6 +4,7 @@ import (
 	"envoy-go-fliter-hub/config"
 	"envoy-go-fliter-hub/internal/global/cron"
 	"envoy-go-fliter-hub/internal/global/logs"
+	"envoy-go-fliter-hub/internal/global/middleware"
 	"envoy-go-fliter-hub/internal/global/mq"
 	"envoy-go-fliter-hub/internal/module"
 	"envoy-go-fliter-hub/internal/module/server"
@@ -27,6 +28,7 @@ func Init() {
 
 func Run() {
 	r := gin.Default()
+	r.Use(middleware.CORSMiddleware())
 	basic := r.Group("/" + config.Config.Prefix)
 	server.InitRouter(basic)
 
