@@ -1,6 +1,7 @@
 package parse
 
 import (
+	"envoy-go-fliter-hub/internal/model"
 	"fmt"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
@@ -11,8 +12,8 @@ import (
 )
 
 // Parse 函数用于解析 git 标签和关联的元数据
-func (p parse) Parse(r *git.Repository) ([]Metadata, error) {
-	var ans []Metadata // 用于存储所有解析出的元数据
+func (p parse) Parse(r *git.Repository) ([]model.Metadata, error) {
+	var ans []model.Metadata // 用于存储所有解析出的元数据
 
 	// 从仓库中获取所有标签
 	tags, err := r.Tags()
@@ -92,8 +93,8 @@ func getPathName(tag string) (string, error) {
 }
 
 // parseMetadata 函数用于解析 metadata.yaml 文件内容
-func parseMetadata(reader io.ReadCloser) (Metadata, error) {
-	var metadata Metadata
+func parseMetadata(reader io.ReadCloser) (model.Metadata, error) {
+	var metadata model.Metadata
 
 	content, err := io.ReadAll(reader)
 	if err != nil {

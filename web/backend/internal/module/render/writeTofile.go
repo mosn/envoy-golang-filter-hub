@@ -2,7 +2,7 @@ package render
 
 import (
 	"encoding/json"
-	template2 "envoy-go-fliter-hub/internal/module/render/template"
+	"envoy-go-fliter-hub/internal/template"
 	"envoy-go-fliter-hub/tools"
 	"fmt"
 	"path"
@@ -14,7 +14,7 @@ const (
 	PluginDetailSuffix = ".json"
 )
 
-func (r render) writeToFile(details []template2.PluginDetail, list template2.PluginList) error {
+func (r render) writeToFile(details []template.PluginDetail, list template.PluginList) error {
 
 	listBytes, err := json.MarshalIndent(list, "", "  ")
 	if err != nil {

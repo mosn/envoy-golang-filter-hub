@@ -22,7 +22,7 @@ vendor
 .vscode/
 
 web/backend/static
-
+web/backend/config/config.yaml
 
 # Logs
 *.log

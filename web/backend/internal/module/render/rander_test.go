@@ -1,7 +1,7 @@
 package render
 
 import (
-	"envoy-go-fliter-hub/internal/module/parse"
+	"envoy-go-fliter-hub/internal/model"
 	"testing"
 	"time"
 )
@@ -12,7 +12,7 @@ func Test_render_Render(t *testing.T) {
 	})
 
 	// 准备测试数据
-	metadata := []parse.Metadata{
+	metadata := []model.Metadata{
 		{
 			TagName:     "example|v1.1",
 			CommitHash:  "abc123",

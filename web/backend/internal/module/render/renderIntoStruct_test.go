@@ -2,8 +2,8 @@ package render
 
 import (
 	"encoding/json"
-	"envoy-go-fliter-hub/internal/module/parse"
-	template2 "envoy-go-fliter-hub/internal/module/render/template"
+	"envoy-go-fliter-hub/internal/model"
+	"envoy-go-fliter-hub/internal/template"
 	"fmt"
 	"reflect"
 	"testing"
@@ -14,7 +14,7 @@ func TestRenderIntoStruct(t *testing.T) {
 	r := render{}
 
 	// 准备测试数据
-	metadata := []parse.Metadata{
+	metadata := []model.Metadata{
 		{
 			TagName:     "example|v1.1",
 			CommitHash:  "abc123",
@@ -44,13 +44,13 @@ func TestRenderIntoStruct(t *testing.T) {
 	}
 
 	// 验证 PluginDetail
-	expectedDetail := template2.PluginDetail{
+	expectedDetail := template.PluginDetail{
 		PathName:    "example",
 		Name:        "New ExamplePlugin",
 		Version:     "1.2",
 		Category:    "Utility",
 		Description: "This is an example plugin",
-		Versions: []template2.Version{
+		Versions: []template.Version{
 			{
 				Version:    "1.1",
 				CreatedAt:  "2021-01-01",
@@ -77,9 +77,9 @@ func TestRenderIntoStruct(t *testing.T) {
 	}
 
 	// 验证 PluginList
-	expectedList := template2.PluginList{
+	expectedList := template.PluginList{
 		TotalCount: 1,
-		Plugins: []template2.PluginBasic{
+		Plugins: []template.PluginBasic{
 			{
 				PathName:    "example",
 				Name:        "New ExamplePlugin",

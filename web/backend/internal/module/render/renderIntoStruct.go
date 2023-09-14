@@ -1,21 +1,21 @@
 package render
 
 import (
-	"envoy-go-fliter-hub/internal/module/parse"
-	template2 "envoy-go-fliter-hub/internal/module/render/template"
+	"envoy-go-fliter-hub/internal/model"
+	"envoy-go-fliter-hub/internal/template"
 	"github.com/Masterminds/semver/v3"
 	"time"
 )
 
-func (r render) renderIntoStruct(metadata []parse.Metadata) ([]template2.PluginDetail, template2.PluginList, error) {
+func (r render) renderIntoStruct(metadata []model.Metadata) ([]template.PluginDetail, template.PluginList, error) {
 	// 创建一个 map 来存储聚合的 PluginDetail，key 是 PathName
-	pluginDetailMap := make(map[string]*template2.PluginDetail)
+	pluginDetailMap := make(map[string]*template.PluginDetail)
 
 	// 遍历所有元数据并填充 PluginDetail 和 Version
 	for _, meta := range metadata {
 		detail, ok := pluginDetailMap[meta.PathName]
 		if !ok {
-			detail = &template2.PluginDetail{
+			detail = &template.PluginDetail{
 				PathName:    meta.PathName,
 				Name:        meta.Name,
 				Version:     meta.Version,
@@ -35,7 +35,7 @@ func (r render) renderIntoStruct(metadata []parse.Metadata) ([]template2.PluginD
 			pluginDetailMap[meta.PathName].Description = meta.Description
 		}
 
-		version := template2.Version{
+		version := template.Version{
 			Version:    meta.Version,
 			CreatedAt:  meta.CreatedAt.Format(time.DateOnly),
 			CommitHash: meta.CommitHash,
@@ -45,18 +45,18 @@ func (r render) renderIntoStruct(metadata []parse.Metadata) ([]template2.PluginD
 	}
 
 	// 将 map 转换为切片
-	var pluginDetails []template2.PluginDetail
+	var pluginDetails []template.PluginDetail
 	for _, detail := range pluginDetailMap {
 		pluginDetails = append(pluginDetails, *detail)
 	}
 
 	// 创建 PluginList 结构体
-	pluginList := template2.PluginList{
+	pluginList := template.PluginList{
 		TotalCount: len(pluginDetails),
-		Plugins: func(details []template2.PluginDetail) []template2.PluginBasic {
-			var plugins []template2.PluginBasic
+		Plugins: func(details []template.PluginDetail) []template.PluginBasic {
+			var plugins []template.PluginBasic
 			for _, detail := range details {
-				plugin := template2.PluginBasic{
+				plugin := template.PluginBasic{
 					PathName:    detail.PathName,
 					Name:        detail.Name,
 					Version:     detail.Version,
