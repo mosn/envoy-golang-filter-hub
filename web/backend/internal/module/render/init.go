@@ -1,14 +1,18 @@
 package render
 
 import (
-	"envoy-go-fliter-hub/service/parse"
-	"envoy-go-fliter-hub/service/render/template"
+	"envoy-go-fliter-hub/internal/module/parse"
+	template2 "envoy-go-fliter-hub/internal/module/render/template"
 )
+
+type Config struct {
+	OutPutDir string
+}
 
 type IRender interface {
 	Render([]parse.Metadata) error
-	renderIntoStruct([]parse.Metadata) ([]template.PluginDetail, template.PluginList, error)
-	writeToFile([]template.PluginDetail, template.PluginList) error
+	renderIntoStruct([]parse.Metadata) ([]template2.PluginDetail, template2.PluginList, error)
+	writeToFile([]template2.PluginDetail, template2.PluginList) error
 }
 
 var Render IRender

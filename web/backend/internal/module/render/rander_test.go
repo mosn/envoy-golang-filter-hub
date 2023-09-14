@@ -1,7 +1,7 @@
 package render
 
 import (
-	"envoy-go-fliter-hub/service/parse"
+	"envoy-go-fliter-hub/internal/module/parse"
 	"testing"
 	"time"
 )

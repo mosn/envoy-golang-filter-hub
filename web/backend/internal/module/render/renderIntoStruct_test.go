@@ -2,8 +2,8 @@ package render
 
 import (
 	"encoding/json"
-	"envoy-go-fliter-hub/service/parse"
-	"envoy-go-fliter-hub/service/render/template"
+	"envoy-go-fliter-hub/internal/module/parse"
+	template2 "envoy-go-fliter-hub/internal/module/render/template"
 	"fmt"
 	"reflect"
 	"testing"
@@ -44,13 +44,13 @@ func TestRenderIntoStruct(t *testing.T) {
 	}
 
 	// 验证 PluginDetail
-	expectedDetail := template.PluginDetail{
+	expectedDetail := template2.PluginDetail{
 		PathName:    "example",
 		Name:        "New ExamplePlugin",
 		Version:     "1.2",
 		Category:    "Utility",
 		Description: "This is an example plugin",
-		Versions: []template.Version{
+		Versions: []template2.Version{
 			{
 				Version:    "1.1",
 				CreatedAt:  "2021-01-01",
@@ -77,9 +77,9 @@ func TestRenderIntoStruct(t *testing.T) {
 	}
 
 	// 验证 PluginList
-	expectedList := template.PluginList{
+	expectedList := template2.PluginList{
 		TotalCount: 1,
-		Plugins: []template.PluginBasic{
+		Plugins: []template2.PluginBasic{
 			{
 				PathName:    "example",
 				Name:        "New ExamplePlugin",

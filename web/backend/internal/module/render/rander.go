@@ -1,6 +1,8 @@
 package render
 
-import "envoy-go-fliter-hub/service/parse"
+import (
+	"envoy-go-fliter-hub/internal/module/parse"
+)
 
 func (r render) Render(metadata []parse.Metadata) error {
 	details, list, err := r.renderIntoStruct(metadata)
