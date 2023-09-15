@@ -1,3 +1,3 @@
 # Example
 
-This is an example plugin.
+This is an example plugin. #1
