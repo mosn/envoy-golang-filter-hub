@@ -1,5 +1,6 @@
 syntax = "proto3";
 
-message PluginConfig {
-  // 添加字段...
+message Config {
+    string username = 1;
+    string password = 2;
 }
