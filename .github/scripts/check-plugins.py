@@ -50,20 +50,26 @@ def get_current_version(plugin_dir):
         return None
 
 
-def tag_plugin_version(plugin_name, version):
+def tag_plugin_version(plugin_name, version, github_token):
     tag_name = f"{plugin_name}|v{version}"
     existing_tags = subprocess.getoutput('git tag').split('\n')
+
+    github_repository = os.getenv('GITHUB_REPOSITORY')
+    if not github_repository:
+        print("错误：没有找到 GITHUB_REPOSITORY 环境变量")
+        return
 
     if tag_name not in existing_tags:
         subprocess.run(["git", "tag", tag_name])
         print(f"添加标签：{tag_name}")
 
-        # 推送标签到远程仓库
-        subprocess.run(["git", "push", "origin", tag_name])
+        # 使用 GITHUB_TOKEN 和 GITHUB_REPOSITORY 推送标签到远程仓库
+        subprocess.run(
+            ["git", "push", "--tags", f"https://x-access-token:{github_token}@github.com/{github_repository}.git"])
         print(f"推送标签 {tag_name} 到远程仓库")
 
 
-def main(plugins_dir):
+def main(plugins_dir, github_token):
     changed_files = os.getenv('CHANGED_FILES').split() if os.getenv('CHANGED_FILES') else []
     changed_plugins = get_changed_plugins(changed_files)
 
@@ -81,7 +87,7 @@ def main(plugins_dir):
             errors.extend(plugin_errors)
 
         if version:
-            tag_plugin_version(plugin_name, version)
+            tag_plugin_version(plugin_name, version, github_token)
 
     if errors:
         for error in errors:
@@ -90,4 +96,8 @@ def main(plugins_dir):
 
 
 if __name__ == '__main__':
-    main(os.path.abspath("./plugins"))
+    github_token = os.getenv("GITHUB_TOKEN")
+    if not github_token:
+        print("错误：没有找到 GITHUB_TOKEN")
+        sys.exit(1)
+    main(os.path.abspath("./plugins"), github_token)
