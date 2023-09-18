@@ -9,3 +9,5 @@ $ echo "Hello World"
 ```
 
 ## License
+
+MIT
