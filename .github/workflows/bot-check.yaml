@@ -33,3 +33,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 添加这一行
           GITHUB_REPOSITORY: ${{ github.repository }}  # 添加这一行
         run: python .github/scripts/check-plugins.py plugins
+      - name: Render and commit HTML
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            CHANGED_FILES: ${{ steps.file_changes.outputs.files }}
+        run: python .github/scripts/render-html.py
