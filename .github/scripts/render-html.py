@@ -1,5 +1,7 @@
 import os
 import subprocess
+import sys
+
 import requests
 import json
 
@@ -60,4 +62,7 @@ def main():
 
 
 if __name__ == "__main__":
+    if not GITHUB_TOKEN:
+        print("错误：没有找到 GITHUB_TOKEN")
+        sys.exit(1)
     main()
