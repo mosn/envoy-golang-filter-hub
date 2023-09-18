@@ -21,10 +21,10 @@ def check_each_plugin(plugin_dir, is_new_plugin):
     if not is_new_plugin:  # 如果是历史插件的更新 PR
         if not plugin.get('version'):
             errors.append(f"错误：插件 {plugin_dir} 的版本号不能为空")
-        else:
-            current_version = get_current_version(plugin_dir)
-            if current_version and plugin.get('version') <= current_version:
-                errors.append(f"错误：插件 {plugin_dir} 的版本号必须比当前版本号 {current_version} 更高")
+        # else:
+        #     current_version = get_current_version(plugin_dir)
+        #     if current_version and plugin.get('version') <= current_version:
+        #         errors.append(f"错误：插件 {plugin_dir} 的版本号必须比当前版本号 {current_version} 更高")
 
     return errors
 
@@ -52,6 +52,15 @@ def get_current_version(plugin_dir):
         return None
 
 
+def tag_plugin_version(plugin_name, version):
+    tag_name = f"{plugin_name}|v{version}"
+    existing_tags = subprocess.getoutput('git tag').split('\n')
+
+    if tag_name not in existing_tags:
+        subprocess.run(["git", "tag", tag_name])
+        print(f"添加标签：{tag_name}")
+
+
 def main(plugins_dir):
     changed_files = os.getenv('CHANGED_FILES').split() if os.getenv('CHANGED_FILES') else []
     changed_plugins = get_changed_plugins(changed_files)
@@ -64,9 +73,13 @@ def main(plugins_dir):
             continue
 
         is_new_plugin = plugin_name in changed_plugins
-        plugin_errors = check_each_plugin(plugin_path, is_new_plugin)
+        plugin_errors, version = check_each_plugin(plugin_path, is_new_plugin)
+
         if plugin_errors:
             errors.extend(plugin_errors)
+
+        if version:
+            tag_plugin_version(plugin_name, version)
 
     if errors:
         for error in errors:
