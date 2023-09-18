@@ -6,27 +6,25 @@ import subprocess
 
 def check_each_plugin(plugin_dir, is_new_plugin):
     errors = []
+    version = None
 
     plugin_file = os.path.join(plugin_dir, 'metadata.yaml')
     if not os.path.isfile(plugin_file):
         errors.append(f"错误：插件 {plugin_dir} 缺少 metadata.yaml 文件")
-        return errors
+        return errors, None
 
     with open(plugin_file) as f:
         plugin = yaml.safe_load(f)
 
-    if not plugin.get('Name'):
+    if not plugin.get('name'):
         errors.append(f"错误：插件 {plugin_dir} 的名称不能为空")
 
-    # if not is_new_plugin:  # 如果是历史插件的更新 PR
-        if not plugin.get('Version'):
+    if not is_new_plugin:  # 如果是历史插件的更新 PR
+        version = plugin.get('version')
+        if not version:
             errors.append(f"错误：插件 {plugin_dir} 的版本号不能为空")
-        # else:
-        #     current_version = get_current_version(plugin_dir)
-        #     if current_version and plugin.get('version') <= current_version:
-        #         errors.append(f"错误：插件 {plugin_dir} 的版本号必须比当前版本号 {current_version} 更高")
 
-    return errors
+    return errors, version
 
 
 def get_changed_plugins(files):
