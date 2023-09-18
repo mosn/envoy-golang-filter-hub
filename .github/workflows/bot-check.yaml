@@ -20,6 +20,22 @@ jobs:
         with:
           fetch-depth: 0  # 这样 git 命令能访问到所有标签
 
+      - name: 获取改变的文件列表
+        id: changed_files
+        run: |
+          # 使用 git diff 命令获取当前提交和上一次提交之间的改变文件列表
+          # 这里假设你在主分支上进行操作，如果是其他分支，请根据需要修改分支名称
+          changed_files=$(git diff --name-only HEAD^ HEAD)
+          echo "$changed_files" > changed_files.txt
+          echo "::set-output name=changed_files::$changed_files"
+
+      - name: 设置改变的文件列表为环境变量
+        run: |
+          # 读取文件内容并赋值给环境变量
+          export CHANGED_FILES=$(cat changed_files.txt)
+          echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
+
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -41,5 +57,5 @@ jobs:
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             GITHUB_REPOSITORY: ${{ github.repository }}
-        #            CHANGED_FILES: ${{ steps.file_changes.outputs.files }}
+#            CHANGED_FILES: ${{ steps.file_changes.outputs.files }}
         run: python .github/scripts/render-html.py
