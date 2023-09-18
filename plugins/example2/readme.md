@@ -7,3 +7,5 @@ This is an example plugin. #1
 ```bash
 $ echo "Hello World"
 ```
+
+## License
