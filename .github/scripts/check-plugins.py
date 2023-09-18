@@ -58,6 +58,10 @@ def tag_plugin_version(plugin_name, version):
         subprocess.run(["git", "tag", tag_name])
         print(f"添加标签：{tag_name}")
 
+        # 推送标签到远程仓库
+        subprocess.run(["git", "push", "origin", tag_name])
+        print(f"推送标签 {tag_name} 到远程仓库")
+
 
 def main(plugins_dir):
     changed_files = os.getenv('CHANGED_FILES').split() if os.getenv('CHANGED_FILES') else []
