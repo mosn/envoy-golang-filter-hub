@@ -48,6 +48,9 @@ def commit_and_push(plugin_path):
 def main():
     plugins_path = "./plugins"  # 这应当是插件目录的路径
     changed_files = os.getenv('CHANGED_FILES').split() if os.getenv('CHANGED_FILES') else []
+
+    print(f"Changed files: {changed_files}")
+
     changed_plugins = set(file.split('/')[1] for file in changed_files if file.startswith('plugins/'))
 
     for plugin_name in changed_plugins:
