@@ -31,6 +31,7 @@ def render_markdown_to_html(plugin_path):
 
     if response.status_code == 200:
         html_content = response.text
+        print(f"Rendered markdown to html for {plugin_path}")
         html_path = os.path.join(plugin_path, "readme.html")
         with open(html_path, "w", encoding="utf-8") as f:
             f.write(html_content)
