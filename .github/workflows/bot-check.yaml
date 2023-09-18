@@ -5,10 +5,12 @@ on:
     branches: [ main ]
     paths:
       - 'plugins/**'
+      - '.github/**'
   pull_request:
     branches: [ main ]
     paths:
       - 'plugins/**'
+      - '.github/**'
 
 jobs:
   check_plugins:
