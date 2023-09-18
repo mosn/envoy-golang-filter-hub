@@ -15,11 +15,11 @@ def check_each_plugin(plugin_dir, is_new_plugin):
     with open(plugin_file) as f:
         plugin = yaml.safe_load(f)
 
-    if not plugin.get('name'):
+    if not plugin.get('Name'):
         errors.append(f"错误：插件 {plugin_dir} 的名称不能为空")
 
-    if not is_new_plugin:  # 如果是历史插件的更新 PR
-        if not plugin.get('version'):
+    # if not is_new_plugin:  # 如果是历史插件的更新 PR
+        if not plugin.get('Version'):
             errors.append(f"错误：插件 {plugin_dir} 的版本号不能为空")
         # else:
         #     current_version = get_current_version(plugin_dir)
