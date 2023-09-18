@@ -73,6 +73,8 @@ def main(plugins_dir, github_token):
     changed_files = os.getenv('CHANGED_FILES').split() if os.getenv('CHANGED_FILES') else []
     changed_plugins = get_changed_plugins(changed_files)
 
+    print(f"Changed files: {changed_files}")
+
     errors = []
 
     for plugin_name in os.listdir(plugins_dir):
