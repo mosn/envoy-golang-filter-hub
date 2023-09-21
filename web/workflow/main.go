@@ -172,7 +172,7 @@ func CreateRelease(tagName string) {
 		//Body:    &releaseBody,
 	}
 
-	owner, repoName, found := strings.Cut(GitHubRepo, "|")
+	owner, repoName, found := strings.Cut(GitHubRepo, "/")
 	if !found {
 		panic("Error: Not Found GITHUB_REPOSITORY")
 	}
