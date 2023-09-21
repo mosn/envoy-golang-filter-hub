@@ -1,6 +1,6 @@
 # Example
 
-This is an example plugin. #1
+This is an example plugin. #2
 
 ## Usage
 
@@ -9,3 +9,5 @@ $ echo "Hello World"
 ```
 
 ## License
+
+MIT

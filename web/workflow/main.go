@@ -143,9 +143,23 @@ func main() {
 
 func Commit() {
 	// Run git Command
-	exec.Command("git add .").Run()
-	exec.Command(fmt.Sprintf("git commit -m \"Committing changes made by %s in GitHub Workflow\"", GitHubActor)).Run()
-	exec.Command("git push origin main --tags").Run()
+
+	cmds := []string{
+		"git add .",
+		fmt.Sprintf("git commit -m \"Committing changes made by %s in GitHub Workflow\"", GitHubActor),
+		"git push origin main --tags",
+	}
+
+	for _, cmd := range cmds {
+		cmd := exec.Command("bash", "-c", cmd)
+		cmd.Dir = RootPath
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		if err := cmd.Run(); err != nil {
+			panic(err)
+		}
+	}
+
 }
 
 func BuildTagName(pluginName string, version string) string {
