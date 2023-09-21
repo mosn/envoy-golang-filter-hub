@@ -19,8 +19,8 @@ import (
 )
 
 var (
-	GitHubToken   string
-	GitHubRepo    = "NX-Official/envoy-golang-filter-hub"
+	GitHubToken   = os.Getenv("GITHUB_TOKEN")
+	GitHubRepo    = os.Getenv("GITHUB_REPOSITORY")
 	GitHubRepoUrl = "https://github.com/" + GitHubRepo
 	//GitHubClient  *github.Client
 	Repo       *git.Repository
@@ -43,9 +43,6 @@ func init() {
 	//	fmt.Println("Error: Not Found GITHUB_TOKEN")
 	//	os.Exit(1)
 	//}
-
-	GitHubToken = os.Getenv("GITHUB_TOKEN")
-	_ = GitHubToken
 
 	// 打开仓库
 	var err error
@@ -238,6 +235,7 @@ func RenderMarkdown(markdown string) string {
 
 	_, body, errs := gorequest.New().
 		Post(reqUrl.String()).
+		AppendHeader("Authorization", fmt.Sprintf("Bearer %s", GitHubToken)).
 		Send(string(reqBytes)).
 		Retry(3, time.Second, http.StatusBadRequest, http.StatusInternalServerError, http.StatusUnauthorized).
 		End()
