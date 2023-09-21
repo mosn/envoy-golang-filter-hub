@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"envoy-go-fliter-hub/model"
 	"envoy-go-fliter-hub/template"
@@ -8,13 +9,14 @@ import (
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/go-git/go-git/v5/plumbing/object"
-	"github.com/parnurzeal/gorequest"
+	"github.com/google/go-github/v55/github"
 	"gopkg.in/yaml.v3"
 	"io"
-	"net/http"
-	"net/url"
+	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -22,14 +24,16 @@ var (
 	GitHubToken   = os.Getenv("GITHUB_TOKEN")
 	GitHubRepo    = os.Getenv("GITHUB_REPOSITORY")
 	GitHubRepoUrl = "https://github.com/" + GitHubRepo
-	//GitHubClient  *github.Client
-	Repo       *git.Repository
-	Head       *plumbing.Reference
-	HeadCommit *object.Commit
-	RootPath   = filepath.Join("../../")
-	IndexPath  = filepath.Join(RootPath, "web/cache/index.json")
+	GitHubActor   = os.Getenv("GITHUB_ACTOR")
+	GitHubClient  = github.NewClient(nil).WithAuthToken(GitHubToken)
+	Repo          *git.Repository
+	Head          *plumbing.Reference
+	HeadCommit    *object.Commit
+	RootPath      = filepath.Join("../../")
+	IndexPath     = filepath.Join(RootPath, "web/cache/index.json")
 	//PluginMap      = make(map[string]template.PluginDetail)
 	PluginIndexMap = make(map[string]template.PluginBasic)
+	NewTags        = make([]string, 0)
 )
 
 func init() {
@@ -122,13 +126,23 @@ func main() {
 			panic(err)
 		}
 
-		CreateRelease(metadata.TagName)
-
+		//CreateRelease(metadata.TagName)
+		NewTags = append(NewTags, metadata.TagName)
 		// 更新索引文件
 		AddVersionToIndex(metadata)
 	}
 	SaveIndex()
+	Commit()
+	for _, tag := range NewTags {
+		CreateRelease(tag)
+	}
+}
 
+func Commit() {
+	// Run git Command
+	exec.Command("git add .")
+	exec.Command(fmt.Sprintf("git commit -m \"Committing changes made by %s in GitHub Workflow\"", GitHubActor))
+	exec.Command("git push origin main --tags")
 }
 
 func BuildTagName(pluginName string, version string) string {
@@ -148,6 +162,27 @@ func AddTag(r *git.Repository, tagName string) (bool, error) {
 
 func CreateRelease(tagName string) {
 	fmt.Println("Creating release for tag: ", tagName)
+	// 准备 release 信息
+	releaseTitle := tagName // 替换为你的 release 标题
+
+	// 创建 release
+	release := &github.RepositoryRelease{
+		TagName: &tagName,
+		Name:    &releaseTitle,
+		//Body:    &releaseBody,
+	}
+
+	owner, repoName, found := strings.Cut(GitHubRepo, "|")
+	if !found {
+		panic("Error: Not Found GITHUB_REPOSITORY")
+	}
+
+	createdRelease, _, err := GitHubClient.Repositories.CreateRelease(context.Background(), owner, repoName, release)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Created release: %s\n", *createdRelease.Name)
 }
 
 func AddVersionToIndex(metadata model.Metadata) {
@@ -176,6 +211,7 @@ func AddVersionToIndex(metadata model.Metadata) {
 	pluginDetailFile.Close()
 	pluginDetail.Version = metadata.Version
 	pluginDetail.Name = metadata.Name
+	pluginDetail.PathName = metadata.PathName
 	pluginDetail.Description = metadata.Description
 	pluginDetail.Category = metadata.Category
 	pluginDetail.Overview = RenderMarkdown(GetPluginReadme(metadata.PathName))
@@ -213,48 +249,48 @@ func RenderMarkdown(markdown string) string {
 	// 使用 GitHub API https://api.github.com/markdown
 	// 请见 https://docs.github.com/zh/free-pro-team@latest/rest/markdown/markdown?apiVersion=2022-11-28#render-a-markdown-document
 
-	reqUrl := url.URL{
-		Scheme: "https",
-		Host:   "api.github.com",
-		Path:   "markdown",
-	}
-
-	reqDto := struct {
-		Text    string `json:"text"`
-		Mode    string `json:"mode"`
-		Context string `json:"context"`
-	}{
-		Text:    markdown,
-		Mode:    "gfm",
-		Context: GitHubRepo,
-	}
-
-	reqBytes, err := json.Marshal(reqDto)
-	if err != nil {
-		panic(err)
-	}
-
-	_, body, errs := gorequest.New().
-		Post(reqUrl.String()).
-		AppendHeader("Authorization", fmt.Sprintf("Bearer %s", GitHubToken)).
-		Send(string(reqBytes)).
-		Retry(3, time.Second, http.StatusBadRequest, http.StatusInternalServerError, http.StatusUnauthorized).
-		End()
-	if errs != nil {
-		panic(errs)
-	}
-
-	return body
-
-	//renderedHTML, _, err := GitHubClient.Markdown(context.Background(), markdown,
-	//	&github.MarkdownOptions{
-	//		Mode:    "markdown",
-	//		Context: GitHubRepo,
-	//	})
+	//reqUrl := url.URL{
+	//	Scheme: "https",
+	//	Host:   "api.github.com",
+	//	Path:   "markdown",
+	//}
+	//
+	//reqDto := struct {
+	//	Text    string `json:"text"`
+	//	Mode    string `json:"mode"`
+	//	Context string `json:"context"`
+	//}{
+	//	Text:    markdown,
+	//	Mode:    "gfm",
+	//	Context: GitHubRepo,
+	//}
+	//
+	//reqBytes, err := json.Marshal(reqDto)
 	//if err != nil {
 	//	panic(err)
 	//}
-	//return renderedHTML
+	//
+	//_, body, errs := gorequest.New().
+	//	Post(reqUrl.String()).
+	//	AppendHeader("Authorization", fmt.Sprintf("Bearer %s", GitHubToken)).
+	//	Send(string(reqBytes)).
+	//	Retry(3, time.Second, http.StatusBadRequest, http.StatusInternalServerError, http.StatusUnauthorized).
+	//	End()
+	//if errs != nil {
+	//	panic(errs)
+	//}
+	//
+	//return body
+
+	renderedHTML, _, err := GitHubClient.Markdown(context.Background(), markdown,
+		&github.MarkdownOptions{
+			Mode:    "gfm",
+			Context: GitHubRepo,
+		})
+	if err != nil {
+		panic(err)
+	}
+	return renderedHTML
 }
 
 func SaveIndex() {
