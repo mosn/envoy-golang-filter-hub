@@ -20,7 +20,7 @@ const pageStore = usePageStore()
                     <LoadingIcon />
                 </div>
                 <DarkModeSwitch />
-                <a href="https://github.com" target="_blank" class="link-item">
+                <a href="https://github.com/NX-Official/envoy-golang-filter-hub" target="_blank" class="link-item">
                     <div class="i-mingcute-github-line"></div>
                 </a>
             </section>
