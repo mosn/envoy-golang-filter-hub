@@ -128,6 +128,7 @@ func main() {
 		AddVersionToIndex(metadata)
 	}
 	SaveIndex()
+
 }
 
 func BuildTagName(pluginName string, version string) string {
