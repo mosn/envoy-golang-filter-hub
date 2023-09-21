@@ -11,9 +11,9 @@
     {
       "path_name": "example2",
       "name": "AnotherExample",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "category": "example-category",
-      "description": ""
+      "description": "This is another example plugin.\nIt does nothing.\nIt is a good starting point for new plugins."
     }
   ]
 }
