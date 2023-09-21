@@ -50,6 +50,17 @@ func init() {
 	//	os.Exit(1)
 	//}
 
+	if GitHubToken == "" {
+		fmt.Println("Error: Not Found GITHUB_TOKEN")
+		os.Exit(1)
+	} else if GitHubRepo == "" {
+		fmt.Println("Error: Not Found GITHUB_REPOSITORY")
+		os.Exit(1)
+	} else if GitHubActor == "" {
+		fmt.Println("Error: Not Found GITHUB_ACTOR")
+		os.Exit(1)
+	}
+
 	// 打开仓库
 	var err error
 	Repo, err = git.PlainOpen(RootPath)
