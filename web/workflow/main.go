@@ -1,6 +1,7 @@
 package main
 
 import (
+	"archive/zip"
 	"context"
 	"encoding/json"
 	"envoy-go-fliter-hub/model"
@@ -165,12 +166,13 @@ func CreateRelease(r model.Metadata) {
 	fmt.Println("Creating release for tag: ", r.TagName)
 	// 准备 release 信息
 	releaseTitle := fmt.Sprintf("%s - v%s", r.Name, r.Version) // 替换为你的 release 标题
+	releaseBody := ""
 
 	// 创建 release
 	release := &github.RepositoryRelease{
 		TagName: &r.TagName,
 		Name:    &releaseTitle,
-		//Body:    &releaseBody,
+		Body:    &releaseBody,
 	}
 
 	owner, repoName, found := strings.Cut(GitHubRepo, "/")
@@ -181,6 +183,40 @@ func CreateRelease(r model.Metadata) {
 	createdRelease, _, err := GitHubClient.Repositories.CreateRelease(context.Background(), owner, repoName, release)
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	// 打包目录
+	pluginDir := filepath.Join(RootPath, "plugins", r.PathName)
+	pluginPathName := "."
+	zipFileName := fmt.Sprintf("%s v%s", r.Name, r.Version) + ".zip"
+
+	if err := zipDirectory(pluginDir, pluginPathName, zipFileName); err != nil {
+		panic(err)
+	}
+
+	// 上传压缩文件作为附件
+	attachmentFile, err := os.Open(zipFileName)
+	if err != nil {
+		panic(err)
+	}
+	defer attachmentFile.Close()
+
+	attachmentName := zipFileName // 替换为你想要的附件名称
+
+	opt := &github.UploadOptions{
+		Name: attachmentName,
+	}
+
+	_, _, err = GitHubClient.Repositories.UploadReleaseAsset(context.Background(), owner, repoName, *createdRelease.ID, opt, attachmentFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Uploaded attachment: %s\n", attachmentName)
+
+	// 清理临时压缩文件
+	if err := os.Remove(zipFileName); err != nil {
+		log.Println("Error deleting zip file:", err)
 	}
 
 	fmt.Printf("Created release: %s\n", *createdRelease.Name)
@@ -200,7 +236,7 @@ func AddVersionToIndex(metadata model.Metadata) {
 	PluginIndexMap[metadata.PathName] = newPluginBasic
 
 	pluginDetailPath := filepath.Join(RootPath, "web/cache/plugins", fmt.Sprintf("%s.json", metadata.PathName))
-	pluginDetailFile, err := os.OpenFile(pluginDetailPath, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	pluginDetailFile, err := os.OpenFile(pluginDetailPath, os.O_RDWR|os.O_CREATE, 0666)
 	if err != nil {
 		panic(err)
 	}
@@ -238,6 +274,8 @@ func AddVersionToIndex(metadata model.Metadata) {
 	if err != nil {
 		panic(err)
 	}
+
+	fmt.Println(string(pluginDetailBytes))
 
 	err = os.WriteFile(pluginDetailPath, pluginDetailBytes, 0644)
 	if err != nil {
@@ -351,4 +389,52 @@ func GetPluginConfig(pluginName string) string {
 		panic(err)
 	}
 	return fmt.Sprint("```protobuf\n" + string(pluginConfigBytes) + "\n```\n")
+}
+
+func zipDirectory(sourceDir, directoryToZip, zipFileName string) error {
+	zipFile, err := os.Create(zipFileName)
+	if err != nil {
+		return err
+	}
+	defer zipFile.Close()
+
+	archive := zip.NewWriter(zipFile)
+	defer archive.Close()
+
+	// 遍历目录并将文件添加到ZIP
+	err = filepath.Walk(sourceDir, func(filePath string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if info.IsDir() {
+			return nil
+		}
+
+		relPath, err := filepath.Rel(sourceDir, filePath)
+		if err != nil {
+			return err
+		}
+
+		if relPath == directoryToZip {
+			// 添加目标目录下的文件到ZIP
+			file, err := os.Open(filePath)
+			if err != nil {
+				return err
+			}
+			defer file.Close()
+
+			zipFile, err := archive.Create(relPath)
+			if err != nil {
+				return err
+			}
+
+			_, err = io.Copy(zipFile, file)
+			if err != nil {
+				return err
+			}
+		}
+		return nil
+	})
+	return err
 }
