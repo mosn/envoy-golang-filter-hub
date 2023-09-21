@@ -33,7 +33,8 @@ var (
 	IndexPath     = filepath.Join(RootPath, "web/cache/index.json")
 	//PluginMap      = make(map[string]template.PluginDetail)
 	PluginIndexMap = make(map[string]template.PluginBasic)
-	NewTags        = make([]string, 0)
+	//NewTags        = make([]string, 0)
+	NewReleases = make([]model.Metadata, 0)
 )
 
 func init() {
@@ -127,14 +128,14 @@ func main() {
 		}
 
 		//CreateRelease(metadata.TagName)
-		NewTags = append(NewTags, metadata.TagName)
+		NewReleases = append(NewReleases, metadata)
 		// 更新索引文件
 		AddVersionToIndex(metadata)
 	}
 	SaveIndex()
 	Commit()
-	for _, tag := range NewTags {
-		CreateRelease(tag)
+	for _, release := range NewReleases {
+		CreateRelease(release)
 	}
 }
 
@@ -160,14 +161,14 @@ func AddTag(r *git.Repository, tagName string) (bool, error) {
 	}
 }
 
-func CreateRelease(tagName string) {
-	fmt.Println("Creating release for tag: ", tagName)
+func CreateRelease(r model.Metadata) {
+	fmt.Println("Creating release for tag: ", r.TagName)
 	// 准备 release 信息
-	releaseTitle := tagName // 替换为你的 release 标题
+	releaseTitle := fmt.Sprintf("%s - v%s", r.Name, r.Version) // 替换为你的 release 标题
 
 	// 创建 release
 	release := &github.RepositoryRelease{
-		TagName: &tagName,
+		TagName: &r.TagName,
 		Name:    &releaseTitle,
 		//Body:    &releaseBody,
 	}
