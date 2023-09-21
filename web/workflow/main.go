@@ -392,43 +392,49 @@ func GetPluginConfig(pluginName string) string {
 }
 
 func zipDirectory(sourceDir, zipFileName string) error {
-	zipFile, err := os.Create(zipFileName)
+	// 创建一个 ZIP 文件
+	zipfile, err := os.Create(zipFileName)
 	if err != nil {
 		return err
 	}
-	defer zipFile.Close()
+	defer zipfile.Close()
 
-	archive := zip.NewWriter(zipFile)
-	defer archive.Close()
+	// 创建一个 ZIP writer
+	zipWriter := zip.NewWriter(zipfile)
+	defer zipWriter.Close()
 
-	// 遍历目录并将文件添加到ZIP
+	// 遍历源目录下的所有文件和子目录
 	err = filepath.Walk(sourceDir, func(filePath string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 
-		relPath, err := filepath.Rel(sourceDir, filePath)
+		// 创建 ZIP 文件中的一个新文件
+		zipFile, err := zipWriter.Create(filePath)
 		if err != nil {
 			return err
 		}
 
-		// 用斜杠替换 Windows 风格的路径分隔符
-		relPath = strings.ReplaceAll(relPath, `\`, `/`)
-
+		// 打开源文件
 		file, err := os.Open(filePath)
 		if err != nil {
 			return err
 		}
 		defer file.Close()
 
-		zipFile, err := archive.Create(relPath)
+		// 将源文件内容复制到 ZIP 文件中
+		_, err = io.Copy(zipFile, file)
 		if err != nil {
 			return err
 		}
 
-		_, err = io.Copy(zipFile, file)
-		return err
+		return nil
 	})
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("目录已成功压缩到", zipFileName)
+	return nil
 }
