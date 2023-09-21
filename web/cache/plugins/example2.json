@@ -1,7 +1,7 @@
 {
-  "path_name": "",
+  "path_name": "example2",
   "name": "AnotherExample",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "category": "example-category",
   "description": "This is another example plugin.\nIt does nothing.\nIt is a good starting point for new plugins.",
   "overview": "\u003ch1 dir=\"auto\"\u003eExample\u003c/h1\u003e\n\u003cp dir=\"auto\"\u003eThis is an example plugin. \u003ca class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"1810011540\" data-permission-text=\"Title is private\" data-url=\"https://github.com/NX-Official/envoy-golang-filter-hub/issues/2\" data-hovercard-type=\"pull_request\" data-hovercard-url=\"/NX-Official/envoy-golang-filter-hub/pull/2/hovercard\" href=\"https://github.com/NX-Official/envoy-golang-filter-hub/pull/2\"\u003e#2\u003c/a\u003e\u003c/p\u003e\n\u003ch2 dir=\"auto\"\u003eUsage\u003c/h2\u003e\n\u003cdiv class=\"highlight highlight-source-shell\" dir=\"auto\"\u003e\u003cpre class=\"notranslate\"\u003e$ \u003cspan class=\"pl-c1\"\u003eecho\u003c/span\u003e \u003cspan class=\"pl-s\"\u003e\u003cspan class=\"pl-pds\"\u003e\"\u003c/span\u003eHello World\u003cspan class=\"pl-pds\"\u003e\"\u003c/span\u003e\u003c/span\u003e\u003c/pre\u003e\u003c/div\u003e\n\u003ch2 dir=\"auto\"\u003eLicense\u003c/h2\u003e\n\u003cp dir=\"auto\"\u003eMIT\u003c/p\u003e",
@@ -29,6 +29,18 @@
         {
           "type": "GitHub",
           "url": "https://github.com/NX-Official/envoy-golang-filter-hub/releases/tag/example2|v1.0.4"
+        }
+      ]
+    },
+    {
+      "version": "1.0.7",
+      "created_at": "2023-09-22",
+      "commit_hash": "1af12bfd4866d98d4bf70e42754be375dfc9c7eb",
+      "commit_url": "https://github.com/NX-Official/envoy-golang-filter-hub/commit/1af12bfd4866d98d4bf70e42754be375dfc9c7eb",
+      "downloads": [
+        {
+          "type": "GitHub",
+          "url": "https://github.com/NX-Official/envoy-golang-filter-hub/releases/tag/example2|v1.0.7"
         }
       ]
     }
