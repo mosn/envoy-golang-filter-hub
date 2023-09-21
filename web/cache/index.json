@@ -1,6 +1,13 @@
 {
-  "total_count": 2,
+  "total_count": 3,
   "plugins": [
+    {
+      "path_name": "example3",
+      "name": "Third Example",
+      "version": "1.0.9",
+      "category": "example-category",
+      "description": "This is an example plugin.\nIt does nothing.\nIt is a good starting point for new plugins."
+    },
     {
       "path_name": "example",
       "name": "Example",

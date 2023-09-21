@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/go-git/go-git/v5 v5.8.1
 	github.com/google/go-github/v55 v55.0.0
+	github.com/mholt/archiver/v3 v3.5.1
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -26,7 +27,6 @@ require (
 	github.com/kevinburke/ssh_config v1.2.0 // indirect
 	github.com/klauspost/compress v1.11.4 // indirect
 	github.com/klauspost/pgzip v1.2.5 // indirect
-	github.com/mholt/archiver/v3 v3.5.1 // indirect
 	github.com/nwaples/rardecode v1.1.0 // indirect
 	github.com/pierrec/lz4/v4 v4.1.2 // indirect
 	github.com/pjbgf/sha1cd v0.3.0 // indirect
