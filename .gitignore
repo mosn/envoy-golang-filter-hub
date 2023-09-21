@@ -21,8 +21,8 @@ vendor
 .idea/
 .vscode/
 
-web/backend/static
-web/backend/config/config.yaml
+web/workflow/static
+web/workflow/config/config.yaml
 
 # Logs
 *.log
