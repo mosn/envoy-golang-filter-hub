@@ -6,9 +6,9 @@ type Metadata struct {
 	TagName     string    `yaml:"-"`
 	CommitHash  string    `yaml:"-"`
 	CreatedAt   time.Time `yaml:"-"`
-	Name        string    `yaml:"Name"`
+	Name        string    `yaml:"name"`
 	PathName    string    `yaml:"-"`
-	Description string    `yaml:"Description"`
-	Category    string    `yaml:"Category"`
-	Version     string    `yaml:"Version"`
+	Description string    `yaml:"description"`
+	Category    string    `yaml:"category"`
+	Version     string    `yaml:"version"`
 }

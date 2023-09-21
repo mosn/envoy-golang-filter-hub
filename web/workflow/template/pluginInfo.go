@@ -6,6 +6,9 @@ type PluginDetail struct {
 	Version     string    `json:"version"`
 	Category    string    `json:"category"`
 	Description string    `json:"description"`
+	Overview    string    `json:"overview"`
+	Config      string    `json:"config"`
+	Changelog   string    `json:"changelog"`
 	Versions    []Version `json:"versions"`
 }
 
