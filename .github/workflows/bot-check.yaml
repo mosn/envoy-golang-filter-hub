@@ -28,18 +28,8 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             GITHUB_REPOSITORY: ${{ github.repository }}
             GITHUB_ACTOR: ${{ github.actor }}
-#            CHANGED_FILES: ${{ steps.file_changes.outputs.files }}
+
         run: |
           cd web/workflow
           go mod tidy
           go run main.go
-
-#      - name: Commit Changes
-#        run: |
-#          git add .
-#          git commit -m "Committing changes made by ${{ github.actor }} in GitHub Workflow"
-#
-#      - name: Push Changes
-#        run: |
-#          git push origin main --tags
-#
