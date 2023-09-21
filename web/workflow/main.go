@@ -1,7 +1,6 @@
 package main
 
 import (
-	"archive/zip"
 	"context"
 	"encoding/json"
 	"envoy-go-fliter-hub/model"
@@ -11,6 +10,7 @@ import (
 	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/go-git/go-git/v5/plumbing/object"
 	"github.com/google/go-github/v55/github"
+	"github.com/mholt/archiver/v3"
 	"gopkg.in/yaml.v3"
 	"io"
 	"log"
@@ -190,7 +190,7 @@ func CreateRelease(r model.Metadata) {
 	//pluginPathName := "."
 	zipFileName := fmt.Sprintf("%s v%s", r.Name, r.Version) + ".zip"
 
-	if err := zipDirectory(pluginDir, zipFileName); err != nil {
+	if err := archiver.Archive([]string{pluginDir}, zipFileName); err != nil {
 		panic(err)
 	}
 
@@ -389,52 +389,4 @@ func GetPluginConfig(pluginName string) string {
 		panic(err)
 	}
 	return fmt.Sprint("```protobuf\n" + string(pluginConfigBytes) + "\n```\n")
-}
-
-func zipDirectory(sourceDir, zipFileName string) error {
-	// 创建一个 ZIP 文件
-	zipfile, err := os.Create(zipFileName)
-	if err != nil {
-		return err
-	}
-	defer zipfile.Close()
-
-	// 创建一个 ZIP writer
-	zipWriter := zip.NewWriter(zipfile)
-	defer zipWriter.Close()
-
-	// 遍历源目录下的所有文件和子目录
-	err = filepath.Walk(sourceDir, func(filePath string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-
-		// 创建 ZIP 文件中的一个新文件
-		zipFile, err := zipWriter.Create(filePath)
-		if err != nil {
-			return err
-		}
-
-		// 打开源文件
-		file, err := os.Open(filePath)
-		if err != nil {
-			return err
-		}
-		defer file.Close()
-
-		// 将源文件内容复制到 ZIP 文件中
-		_, err = io.Copy(zipFile, file)
-		if err != nil {
-			return err
-		}
-
-		return nil
-	})
-
-	if err != nil {
-		return err
-	}
-
-	fmt.Println("目录已成功压缩到", zipFileName)
-	return nil
 }
