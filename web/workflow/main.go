@@ -187,10 +187,10 @@ func CreateRelease(r model.Metadata) {
 
 	// 打包目录
 	pluginDir := filepath.Join(RootPath, "plugins", r.PathName)
-	pluginPathName := "."
+	//pluginPathName := "."
 	zipFileName := fmt.Sprintf("%s v%s", r.Name, r.Version) + ".zip"
 
-	if err := zipDirectory(pluginDir, pluginPathName, zipFileName); err != nil {
+	if err := zipDirectory(pluginDir, zipFileName); err != nil {
 		panic(err)
 	}
 
@@ -275,7 +275,7 @@ func AddVersionToIndex(metadata model.Metadata) {
 		panic(err)
 	}
 
-	fmt.Println(string(pluginDetailBytes))
+	//fmt.Println(string(pluginDetailBytes))
 
 	err = os.WriteFile(pluginDetailPath, pluginDetailBytes, 0644)
 	if err != nil {
@@ -391,7 +391,7 @@ func GetPluginConfig(pluginName string) string {
 	return fmt.Sprint("```protobuf\n" + string(pluginConfigBytes) + "\n```\n")
 }
 
-func zipDirectory(sourceDir, directoryToZip, zipFileName string) error {
+func zipDirectory(sourceDir, zipFileName string) error {
 	zipFile, err := os.Create(zipFileName)
 	if err != nil {
 		return err
@@ -407,34 +407,28 @@ func zipDirectory(sourceDir, directoryToZip, zipFileName string) error {
 			return err
 		}
 
-		if info.IsDir() {
-			return nil
-		}
-
 		relPath, err := filepath.Rel(sourceDir, filePath)
 		if err != nil {
 			return err
 		}
 
-		if relPath == directoryToZip {
-			// 添加目标目录下的文件到ZIP
-			file, err := os.Open(filePath)
-			if err != nil {
-				return err
-			}
-			defer file.Close()
+		// 用斜杠替换 Windows 风格的路径分隔符
+		relPath = strings.ReplaceAll(relPath, `\`, `/`)
 
-			zipFile, err := archive.Create(relPath)
-			if err != nil {
-				return err
-			}
-
-			_, err = io.Copy(zipFile, file)
-			if err != nil {
-				return err
-			}
+		file, err := os.Open(filePath)
+		if err != nil {
+			return err
 		}
-		return nil
+		defer file.Close()
+
+		zipFile, err := archive.Create(relPath)
+		if err != nil {
+			return err
+		}
+
+		_, err = io.Copy(zipFile, file)
+		return err
 	})
+
 	return err
 }
