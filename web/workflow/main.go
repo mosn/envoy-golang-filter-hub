@@ -134,6 +134,7 @@ func main() {
 		AddVersionToIndex(metadata)
 	}
 	SaveIndex()
+
 	Commit()
 	for _, release := range NewReleases {
 		CreateRelease(release)
@@ -142,9 +143,9 @@ func main() {
 
 func Commit() {
 	// Run git Command
-	exec.Command("git add .")
-	exec.Command(fmt.Sprintf("git commit -m \"Committing changes made by %s in GitHub Workflow\"", GitHubActor))
-	exec.Command("git push origin main --tags")
+	exec.Command("git add .").Run()
+	exec.Command(fmt.Sprintf("git commit -m \"Committing changes made by %s in GitHub Workflow\"", GitHubActor)).Run()
+	exec.Command("git push origin main --tags").Run()
 }
 
 func BuildTagName(pluginName string, version string) string {
