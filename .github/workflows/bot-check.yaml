@@ -23,10 +23,6 @@ jobs:
       - name: Set up Golang
         uses: actions/setup-go@v2
 
-      - name: Bulid
-        run: |
-          go build -o ./bin/ ./plugins/...
-
       - name: Render and commit HTML
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
