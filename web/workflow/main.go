@@ -141,19 +141,12 @@ func main() {
 }
 
 func Commit() {
-	// Run git Commands
-
-	tmpDir := "/tmp/cache_tmp_dir" // Temporary directory to hold the cache contents
+	// Run git Command
 
 	cmds := []string{
-		"mkdir -p " + tmpDir,                                // Create a temporary directory
-		"cp -r web/cache/* " + tmpDir + "/",                 // Copy web/cache content to temporary directory
-		"git checkout cache || git checkout --orphan cache", // Switch to cache branch or create an orphaned one if it doesn't exist
-		"git rm -rf .",                                      // Remove all files in the current directory
-		"cp -r " + tmpDir + "/* .",                          // Copy back the cache contents from temporary directory to root directory
 		"git add .",
 		fmt.Sprintf("git commit -m \"Committing changes made by %s in GitHub Workflow\"", GitHubActor),
-		"git push -u origin cache", // Push to the cache branch
+		"git push origin main --tags",
 	}
 
 	for _, cmd := range cmds {
@@ -162,11 +155,10 @@ func Commit() {
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 		cmd.Run()
-		// Handle errors as needed
+		//if err := cmd.Run(); err != nil {
+		//	panic(err) // When nothing to commit, it will panic
+		//}
 	}
-
-	// Cleanup: Remove the temporary directory
-	os.RemoveAll(tmpDir)
 }
 
 func BuildTagName(pluginName string, version string) string {
