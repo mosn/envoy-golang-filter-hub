@@ -3,7 +3,6 @@ import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import markdownStyle from '@/assets/markdown-style.scss?inline'
 import { ShadowStyle } from 'vue-shadow-dom';
 import { usePageStore } from '@/store/page';
-import { markdownFallbackUrl } from '@/utils/env';
 
 const pageStore = usePageStore()
 
@@ -33,7 +32,7 @@ watch(() => props.html, async (html) => {
         a.addEventListener('click', function (e) {
             e.preventDefault()
             const href = a.getAttribute('href')
-            const url = new URL(href!, markdownFallbackUrl)
+            const url = new URL(href!)
             window.open(url, '_blank')
         })
     })
@@ -41,7 +40,7 @@ watch(() => props.html, async (html) => {
         a.addEventListener('click', function (e) {
             e.preventDefault()
             const href = a.getAttribute('href')
-            const url = new URL(href!, markdownFallbackUrl)
+            const url = new URL(href!)
             window.open(url, '_blank')
         })
     })

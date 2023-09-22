@@ -2,6 +2,7 @@
 import DarkModeSwitch from './DarkModeSwitch.vue';
 import LoadingIcon from './LoadingIcon.vue';
 import { usePageStore } from '@/store/page'
+import { github_repo } from '@/utils/env'
 
 const pageStore = usePageStore()
 
@@ -20,9 +21,9 @@ const pageStore = usePageStore()
                     <LoadingIcon />
                 </div>
                 <DarkModeSwitch />
-                <a href="https://github.com/NX-Official/envoy-golang-filter-hub" target="_blank" class="link-item">
-                    <div class="i-mingcute-github-line"></div>
-                </a>
+              <a :href="'https://github.com/' + github_repo" target="_blank" class="link-item">
+                <div class="i-mingcute-github-line"></div>
+              </a>
             </section>
         </section>
     </header>

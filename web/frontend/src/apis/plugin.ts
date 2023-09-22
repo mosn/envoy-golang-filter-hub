@@ -8,7 +8,6 @@ export interface PluginItem {
   version: string
 }
 
-// https://raw.githubusercontent.com/NX-Official/envoy-golang-filter-hub/main/web/cache/index.json
 export const getPluginList = async (): Promise<PluginItem[] | false> => {
   return await fetch(baseUrl + 'index.json')
     .then((res) => res.json())
@@ -44,7 +43,6 @@ export interface PluginDownloadItem {
   url: string
 }
 
-// https://github.com/NX-Official/envoy-golang-filter-hub/blob/main/web/cache/plugins/example.json
 export const getPlugin = async (path: string): Promise<PluginData | false> => {
   return await fetch(baseUrl + 'plugins/' + path + '.json')
     .then((res) => res.json())
