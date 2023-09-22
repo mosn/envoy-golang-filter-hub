@@ -1,6 +1,6 @@
 name: Third Example
-version: 1.0.12
-category: example-category
+version: 1.0.13
+category: category-B
 description: |
   This is an example plugin.
   It does nothing.

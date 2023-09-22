@@ -1,6 +1,6 @@
 name: AnotherExample
-version: 1.0.7
-category: example-category
+version: 1.0.8
+category: category-A
 description: |
   This is another example plugin.
   It does nothing.
