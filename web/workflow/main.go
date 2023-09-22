@@ -154,11 +154,11 @@ func Commit() {
 		cmd.Dir = RootPath
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
-		if err := cmd.Run(); err != nil {
-			panic(err)
-		}
+		cmd.Run()
+		//if err := cmd.Run(); err != nil {
+		//	panic(err) // When nothing to commit, it will panic
+		//}
 	}
-
 }
 
 func BuildTagName(pluginName string, version string) string {
