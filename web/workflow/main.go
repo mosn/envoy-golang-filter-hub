@@ -141,12 +141,15 @@ func main() {
 }
 
 func Commit() {
-	// Run git Command
+	// Run git Commands
 
 	cmds := []string{
+		"git checkout cache || git checkout --orphan cache", // Switch to cache branch or create an orphaned one if it doesn't exist
+		"git rm -rf .",        // Remove all files in the current directory
+		"cp -r web/cache/* .", // Copy the contents of web/cache to the root directory
 		"git add .",
 		fmt.Sprintf("git commit -m \"Committing changes made by %s in GitHub Workflow\"", GitHubActor),
-		"git push origin main --tags",
+		"git push -u origin cache", // Push to the cache branch, -u is to set the upstream
 	}
 
 	for _, cmd := range cmds {
