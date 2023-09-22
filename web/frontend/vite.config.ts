@@ -8,6 +8,7 @@ import UnoCSS from 'unocss/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "/envoy-go-filter-hub/",
   plugins: [
     VueDevTools(),
     vue({
