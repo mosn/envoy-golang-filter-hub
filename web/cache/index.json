@@ -2,11 +2,11 @@
   "total_count": 4,
   "plugins": [
     {
-      "path_name": "example3",
-      "name": "Third Example",
-      "version": "1.0.13",
-      "category": "category-B",
-      "description": "This is an example plugin.\nIt does nothing.\nIt is a good starting point for new plugins."
+      "path_name": "example2",
+      "name": "AnotherExample",
+      "version": "1.0.8",
+      "category": "category-A",
+      "description": "This is another example plugin.\nIt does nothing.\nIt is a good starting point for new plugins."
     },
     {
       "path_name": "example",
@@ -23,11 +23,11 @@
       "description": "This is an example plugin.\nIt does nothing.\nIt is a good starting point for new plugins."
     },
     {
-      "path_name": "example2",
-      "name": "AnotherExample",
-      "version": "1.0.8",
-      "category": "category-A",
-      "description": "This is another example plugin.\nIt does nothing.\nIt is a good starting point for new plugins."
+      "path_name": "example3",
+      "name": "Third Example",
+      "version": "1.0.13",
+      "category": "category-B",
+      "description": "This is an example plugin.\nIt does nothing.\nIt is a good starting point for new plugins."
     }
   ]
 }
