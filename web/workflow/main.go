@@ -17,6 +17,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sort"
 	"strings"
 	"time"
 )
@@ -32,24 +33,11 @@ var (
 	HeadCommit    *object.Commit
 	RootPath      = filepath.Join("../../")
 	IndexPath     = filepath.Join(RootPath, "web/cache/index.json")
-	//PluginMap      = make(map[string]template.PluginDetail)
-	PluginIndexMap = make(map[string]template.PluginBasic)
-	//NewTags        = make([]string, 0)
-	NewReleases = make([]model.Metadata, 0)
+	PluginMap     = make(map[string]template.PluginBasic)
+	NewReleases   = make([]model.Metadata, 0)
 )
 
 func init() {
-	//// 创建 GitHub 客户端
-	//GitHubClient = github.NewClient(oauth2.NewClient(context.Background(), oauth2.StaticTokenSource(
-	//	&oauth2.Token{AccessToken: GitHubToken},
-	//)))
-	//exists := false
-	//GitHubToken, exists = os.LookupEnv("GITHUB_TOKEN")
-	//if !exists {
-	//	fmt.Println("Error: Not Found GITHUB_TOKEN")
-	//	os.Exit(1)
-	//}
-
 	if GitHubToken == "" {
 		fmt.Println("Error: Not Found GITHUB_TOKEN")
 		os.Exit(1)
@@ -78,7 +66,7 @@ func init() {
 		panic(err)
 	}
 
-	// 读取 plugin_list.json 文件
+	// 读取 index.json 文件
 	pluginListFile, err := os.Open(IndexPath)
 	if err != nil {
 		panic(err)
@@ -94,10 +82,10 @@ func init() {
 
 	for _, plugin := range pluginList.Plugins {
 		//fmt.Printf("plugin: %+v\n", plugin)
-		PluginIndexMap[plugin.PathName] = plugin
+		PluginMap[plugin.PathName] = plugin
 	}
 
-	//fmt.Println(PluginIndexMap)
+	//fmt.Println(PluginMap)
 }
 
 func main() {
@@ -259,7 +247,7 @@ func AddVersionToIndex(metadata model.Metadata) {
 		Description: metadata.Description,
 	}
 
-	PluginIndexMap[metadata.PathName] = newPluginBasic
+	PluginMap[metadata.PathName] = newPluginBasic
 
 	pluginDetailPath := filepath.Join(RootPath, "web/cache/plugins", fmt.Sprintf("%s.json", metadata.PathName))
 	pluginDetailFile, err := os.OpenFile(pluginDetailPath, os.O_RDWR|os.O_CREATE, 0666)
@@ -314,39 +302,6 @@ func RenderMarkdown(markdown string) string {
 	// 使用 GitHub API https://api.github.com/markdown
 	// 请见 https://docs.github.com/zh/free-pro-team@latest/rest/markdown/markdown?apiVersion=2022-11-28#render-a-markdown-document
 
-	//reqUrl := url.URL{
-	//	Scheme: "https",
-	//	Host:   "api.github.com",
-	//	Path:   "markdown",
-	//}
-	//
-	//reqDto := struct {
-	//	Text    string `json:"text"`
-	//	Mode    string `json:"mode"`
-	//	Context string `json:"context"`
-	//}{
-	//	Text:    markdown,
-	//	Mode:    "gfm",
-	//	Context: GitHubRepo,
-	//}
-	//
-	//reqBytes, err := json.Marshal(reqDto)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//_, body, errs := gorequest.New().
-	//	Post(reqUrl.String()).
-	//	AppendHeader("Authorization", fmt.Sprintf("Bearer %s", GitHubToken)).
-	//	Send(string(reqBytes)).
-	//	Retry(3, time.Second, http.StatusBadRequest, http.StatusInternalServerError, http.StatusUnauthorized).
-	//	End()
-	//if errs != nil {
-	//	panic(errs)
-	//}
-	//
-	//return body
-
 	renderedHTML, _, err := GitHubClient.Markdown(context.Background(), markdown,
 		&github.MarkdownOptions{
 			Mode:    "gfm",
@@ -361,10 +316,16 @@ func RenderMarkdown(markdown string) string {
 func SaveIndex() {
 	pluginList := template.PluginList{}
 
-	pluginList.Plugins = make([]template.PluginBasic, 0, len(PluginIndexMap))
-	for _, plugin := range PluginIndexMap {
+	pluginList.Plugins = make([]template.PluginBasic, 0, len(PluginMap))
+	for _, plugin := range PluginMap {
 		pluginList.Plugins = append(pluginList.Plugins, plugin)
 	}
+
+	// sort
+	sort.Slice(pluginList.Plugins, func(i, j int) bool {
+		return pluginList.Plugins[i].Name < pluginList.Plugins[j].Name
+	})
+
 	pluginList.TotalCount = len(pluginList.Plugins)
 
 	listBytes, err := json.MarshalIndent(pluginList, "", "  ")
