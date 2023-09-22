@@ -1,4 +1,4 @@
-module envoy-go-fliter-hub
+module envoy-go-filter-hub
 
 go 1.20
 
