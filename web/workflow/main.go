@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"envoy-go-fliter-hub/model"
-	"envoy-go-fliter-hub/template"
+	"envoy-go-filter-hub/model"
+	"envoy-go-filter-hub/template"
 	"fmt"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
