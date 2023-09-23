@@ -42,22 +42,27 @@ func AddTag(r *git.Repository, tagName string) (bool, error) {
 	}
 }
 
-func ReadFile(r *git.Repository, branch, path string) string {
-	w, _ := r.Worktree()
-	w.Checkout(&git.CheckoutOptions{
-		Branch: plumbing.ReferenceName(branch),
-	})
-
-	fmt.Println(path)
-	file, err := w.Filesystem.Open(path)
+func ReadFile(path string) string {
+	tree, err := HeadCommit.Tree()
 	if err != nil {
 		panic(err)
 	}
 
-	bytes, err := io.ReadAll(file)
+	file, err := tree.File(path)
 	if err != nil {
+		fmt.Println("File not found: ", path)
 		return ""
 	}
 
-	return string(bytes)
+	reader, err := file.Reader()
+	if err != nil {
+		panic(err)
+	}
+
+	ans, err := io.ReadAll(reader)
+	if err != nil {
+		panic(err)
+	}
+
+	return string(ans)
 }
