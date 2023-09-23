@@ -5,6 +5,7 @@ import (
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/go-git/go-git/v5/plumbing/object"
+	"io"
 )
 
 var (
@@ -49,14 +50,10 @@ func ReadFile(r *git.Repository, branch, path string) string {
 
 	file, _ := w.Filesystem.Open(path)
 
-	ans := ""
-	buffer := make([]byte, 1024)
-	for {
-		n, err := file.Read(buffer)
-		if err != nil {
-			break
-		}
-		ans += string(buffer[:n])
+	bytes, err := io.ReadAll(file)
+	if err != nil {
+		return ""
 	}
-	return ans
+
+	return string(bytes)
 }
