@@ -46,7 +46,7 @@ func CreateRelease(r model.Metadata) {
 	// 打包目录
 	pluginDir := filepath.Join(RootPath, "plugins", r.PathName)
 	//pluginPathName := "."
-	zipFileName := fmt.Sprintf("%s v%s", r.Name, r.Version) + ".zip"
+	zipFileName := fmt.Sprintf("%s.v%s", r.Name, r.Version) + ".zip"
 
 	if err := archiver.Archive([]string{pluginDir}, zipFileName); err != nil {
 		panic(err)
