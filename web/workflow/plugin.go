@@ -109,43 +109,54 @@ func SaveIndex() {
 }
 
 func GetPluginReadme(pluginName string) string {
-	pluginReadmePath := filepath.Join(RootPath, "plugins", pluginName, "readme.md")
-	pluginReadmeFile, err := os.Open(pluginReadmePath)
-	if err != nil {
-		panic(err)
-	}
-	defer pluginReadmeFile.Close()
-	pluginReadmeBytes, err := io.ReadAll(pluginReadmeFile)
-	if err != nil {
-		panic(err)
-	}
-	return string(pluginReadmeBytes)
+	//pluginReadmePath := filepath.Join(RootPath, "plugins", pluginName, "readme.md")
+	//pluginReadmeFile, err := os.Open(pluginReadmePath)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//defer pluginReadmeFile.Close()
+	//pluginReadmeBytes, err := io.ReadAll(pluginReadmeFile)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//return string(pluginReadmeBytes)
+
+	ans := ReadFile(Repo, "main", filepath.Join("plugins", pluginName, "readme.md"))
+	return ans
 }
 
 func GetPluginChangelog(pluginName string) string {
-	pluginChangelogPath := filepath.Join(RootPath, "plugins", pluginName, "changelog.md")
-	pluginChangelogFile, err := os.Open(pluginChangelogPath)
-	if err != nil {
-		panic(err)
-	}
-	defer pluginChangelogFile.Close()
-	pluginChangelogBytes, err := io.ReadAll(pluginChangelogFile)
-	if err != nil {
-		panic(err)
-	}
-	return string(pluginChangelogBytes)
+	//pluginChangelogPath := filepath.Join(RootPath, "plugins", pluginName, "changelog.md")
+	//pluginChangelogFile, err := os.Open(pluginChangelogPath)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//defer pluginChangelogFile.Close()
+	//pluginChangelogBytes, err := io.ReadAll(pluginChangelogFile)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//return string(pluginChangelogBytes)
+
+	ans := ReadFile(Repo, "main", filepath.Join("plugins", pluginName, "changelog.md"))
+	return ans
+
 }
 
 func GetPluginConfig(pluginName string) string {
-	pluginConfigPath := filepath.Join(RootPath, "plugins", pluginName, "config.proto")
-	pluginConfigFile, err := os.Open(pluginConfigPath)
-	if err != nil {
-		panic(err)
-	}
-	defer pluginConfigFile.Close()
-	pluginConfigBytes, err := io.ReadAll(pluginConfigFile)
-	if err != nil {
-		panic(err)
-	}
-	return fmt.Sprint("```protobuf\n" + string(pluginConfigBytes) + "\n```\n")
+	//pluginConfigPath := filepath.Join(RootPath, "plugins", pluginName, "config.proto")
+	//pluginConfigFile, err := os.Open(pluginConfigPath)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//defer pluginConfigFile.Close()
+	//pluginConfigBytes, err := io.ReadAll(pluginConfigFile)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//return fmt.Sprint("```protobuf\n" + string(pluginConfigBytes) + "\n```\n")
+
+	ans := ReadFile(Repo, "main", filepath.Join("plugins", pluginName, "config.proto"))
+	return fmt.Sprint("```protobuf\n" + ans + "\n```\n")
+
 }

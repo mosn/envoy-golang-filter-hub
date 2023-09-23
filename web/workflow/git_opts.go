@@ -40,3 +40,23 @@ func AddTag(r *git.Repository, tagName string) (bool, error) {
 		return false, nil
 	}
 }
+
+func ReadFile(r *git.Repository, branch, path string) string {
+	w, _ := r.Worktree()
+	w.Checkout(&git.CheckoutOptions{
+		Branch: plumbing.ReferenceName(branch),
+	})
+
+	file, _ := w.Filesystem.Open(path)
+
+	ans := ""
+	buffer := make([]byte, 1024)
+	for {
+		n, err := file.Read(buffer)
+		if err != nil {
+			break
+		}
+		ans += string(buffer[:n])
+	}
+	return ans
+}
