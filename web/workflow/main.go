@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	RootPath = filepath.Join("../../")
+	RootPath string
 )
 
 func main() {
@@ -54,8 +54,11 @@ func main() {
 		//CreateRelease(metadata.TagName)
 		NewReleases = append(NewReleases, metadata)
 		// 更新索引文件
-		AddVersionToIndex(metadata)
+		NewVersions = append(NewVersions, metadata)
+		//AddVersionToIndex(metadata)
 	}
+
+	RunCommand("git checkout cache")
 	SaveIndex()
 
 	Commit()

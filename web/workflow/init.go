@@ -6,9 +6,16 @@ import (
 	"fmt"
 	"github.com/go-git/go-git/v5"
 	"os"
+	"path/filepath"
 )
 
 func init() {
+
+	RootPath = filepath.Join("../../")
+	RootPath, _ = filepath.Abs(RootPath)
+
+	fmt.Println("RootPath: ", RootPath)
+
 	if GitHubToken == "" {
 		fmt.Println("Error: Not Found GITHUB_TOKEN")
 		os.Exit(1)
@@ -37,6 +44,9 @@ func init() {
 		panic(err)
 	}
 
+	RunCommand("cd" + RootPath)
+	RunCommand("git checkout cache")
+
 	// 读取 index.json 文件
 	pluginListFile, err := os.Open(IndexPath)
 	if err != nil {
@@ -55,6 +65,8 @@ func init() {
 		//fmt.Printf("plugin: %+v\n", plugin)
 		PluginMap[plugin.PathName] = plugin
 	}
+
+	RunCommand("git checkout main")
 
 	//fmt.Println(PluginMap)
 }

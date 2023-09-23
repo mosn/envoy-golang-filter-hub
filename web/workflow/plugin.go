@@ -13,9 +13,10 @@ import (
 )
 
 var (
-	IndexPath   = filepath.Join(RootPath, "web/cache/index.json")
+	IndexPath   = "index.json"
 	PluginMap   = make(map[string]template.PluginBasic)
 	NewReleases = make([]model.Metadata, 0)
+	NewVersions = make([]model.Metadata, 0)
 )
 
 func AddVersionToIndex(metadata model.Metadata) {
@@ -31,7 +32,7 @@ func AddVersionToIndex(metadata model.Metadata) {
 
 	PluginMap[metadata.PathName] = newPluginBasic
 
-	pluginDetailPath := filepath.Join(RootPath, "web/cache/plugins", fmt.Sprintf("%s.json", metadata.PathName))
+	pluginDetailPath := filepath.Join("plugins", fmt.Sprintf("%s.json", metadata.PathName))
 	pluginDetailFile, err := os.OpenFile(pluginDetailPath, os.O_RDWR|os.O_CREATE, 0666)
 	if err != nil {
 		panic(err)
@@ -81,6 +82,10 @@ func AddVersionToIndex(metadata model.Metadata) {
 }
 
 func SaveIndex() {
+	for _, metadata := range NewVersions {
+		AddVersionToIndex(metadata)
+	}
+
 	pluginList := template.PluginList{}
 
 	pluginList.Plugins = make([]template.PluginBasic, 0, len(PluginMap))

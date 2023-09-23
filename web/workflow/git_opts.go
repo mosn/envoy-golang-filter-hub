@@ -5,8 +5,6 @@ import (
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/go-git/go-git/v5/plumbing/object"
-	"os"
-	"os/exec"
 )
 
 var (
@@ -19,20 +17,16 @@ func Commit() {
 	// Run git Command
 
 	cmds := []string{
+		"git checkout cache",
 		"git add .",
 		fmt.Sprintf("git commit -m \"Committing changes made by %s in GitHub Workflow\"", GitHubActor),
-		"git push origin main --tags",
+		"git push origin cache",
+		"git checkout main",
+		"git push origin --tags",
 	}
 
 	for _, cmd := range cmds {
-		cmd := exec.Command("bash", "-c", cmd)
-		cmd.Dir = RootPath
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		cmd.Run()
-		//if err := cmd.Run(); err != nil {
-		//	panic(err) // When nothing to commit, it will panic
-		//}
+		RunCommand(cmd)
 	}
 }
 
