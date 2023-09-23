@@ -32,7 +32,7 @@ func AddVersionToIndex(metadata model.Metadata) {
 
 	PluginMap[metadata.PathName] = newPluginBasic
 
-	pluginDetailPath := filepath.Join("plugins", fmt.Sprintf("%s.json", metadata.PathName))
+	pluginDetailPath := filepath.Join(RootPath, "plugins", fmt.Sprintf("%s.json", metadata.PathName))
 	pluginDetailFile, err := os.OpenFile(pluginDetailPath, os.O_RDWR|os.O_CREATE, 0666)
 	if err != nil {
 		panic(err)
