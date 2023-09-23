@@ -21,9 +21,9 @@ func Commit() {
 		"git checkout cache",
 		"git add .",
 		fmt.Sprintf("git commit -m \"Committing changes made by %s in GitHub Workflow\"", GitHubActor),
-		//"git push origin cache",
+		"git push origin cache",
 		"git checkout main",
-		//"git push origin --tags",
+		"git push origin --tags",
 	}
 
 	for _, cmd := range cmds {
