@@ -14,6 +14,8 @@ func init() {
 	RootPath = filepath.Join("../../")
 	RootPath, _ = filepath.Abs(RootPath)
 
+	IndexPath = filepath.Join(RootPath, "index.json")
+
 	fmt.Println("RootPath: ", RootPath)
 
 	if GitHubToken == "" {

@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	IndexPath   = "index.json"
+	IndexPath   string
 	PluginMap   = make(map[string]template.PluginBasic)
 	NewReleases = make([]model.Metadata, 0)
 	NewVersions = make([]model.Metadata, 0)
