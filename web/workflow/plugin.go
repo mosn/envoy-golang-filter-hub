@@ -121,7 +121,7 @@ func GetPluginReadme(pluginName string) string {
 	//}
 	//return string(pluginReadmeBytes)
 
-	ans := ReadFile(Repo, "main", filepath.Join("plugins", pluginName, "readme.md"))
+	ans := ReadFile(filepath.Join("plugins", pluginName, "readme.md"))
 	return ans
 }
 
@@ -138,7 +138,7 @@ func GetPluginChangelog(pluginName string) string {
 	//}
 	//return string(pluginChangelogBytes)
 
-	ans := ReadFile(Repo, "main", filepath.Join("plugins", pluginName, "changelog.md"))
+	ans := ReadFile(filepath.Join("plugins", pluginName, "changelog.md"))
 	return ans
 
 }
@@ -156,7 +156,7 @@ func GetPluginConfig(pluginName string) string {
 	//}
 	//return fmt.Sprint("```protobuf\n" + string(pluginConfigBytes) + "\n```\n")
 
-	ans := ReadFile(Repo, "main", filepath.Join("plugins", pluginName, "config.proto"))
+	ans := ReadFile(filepath.Join("plugins", pluginName, "config.proto"))
 	return fmt.Sprint("```protobuf\n" + ans + "\n```\n")
 
 }
