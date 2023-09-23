@@ -46,7 +46,6 @@ func init() {
 		panic(err)
 	}
 
-	RunCommand("cd" + RootPath)
 	RunCommand("git checkout cache")
 
 	// 读取 index.json 文件

@@ -8,10 +8,6 @@ jobs:
   check_plugins:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # 这样 git 命令能访问到所有标签
-
       - name: Set up Golang
         uses: actions/setup-go@v3
         with:
@@ -22,14 +18,22 @@ jobs:
           git config --global user.email "${{ github.event.pusher.email }}"
           git config --global user.name "${{ github.event.pusher.name }}"
 
-            
-      - name: Render and commit HTML
+
+      - name: Build
+        run: |
+          cd web/workflow
+          go mod tidy
+          go build -o /tmp/workflow .
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # 这样 git 命令能访问到所有标签
+
+      - name: Run
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             GITHUB_REPOSITORY: ${{ github.repository }}
             GITHUB_ACTOR: ${{ github.actor }}
-
         run: |
           cd web/workflow
-          go mod tidy
-          go run .
+          /tmp/workflow
