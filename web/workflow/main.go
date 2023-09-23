@@ -62,6 +62,8 @@ func main() {
 	SaveIndex()
 
 	Commit()
+
+	RunCommand("git checkout main")
 	for _, release := range NewReleases {
 		CreateRelease(release)
 	}
