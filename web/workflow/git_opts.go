@@ -48,7 +48,11 @@ func ReadFile(r *git.Repository, branch, path string) string {
 		Branch: plumbing.ReferenceName(branch),
 	})
 
-	file, _ := w.Filesystem.Open(path)
+	fmt.Println(path)
+	file, err := w.Filesystem.Open(path)
+	if err != nil {
+		panic(err)
+	}
 
 	bytes, err := io.ReadAll(file)
 	if err != nil {
