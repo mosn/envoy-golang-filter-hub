@@ -22,11 +22,11 @@ var (
 
 func CreateRelease(r model.Metadata) {
 	fmt.Println("Creating release for tag: ", r.TagName)
-	// 准备 release 信息
-	releaseTitle := fmt.Sprintf("%s - v%s", r.Name, r.Version) // 替换为你的 release 标题
+	// 准备 release 信息 - Prepare release information
+	releaseTitle := fmt.Sprintf("%s - v%s", r.Name, r.Version)
 	releaseBody := ""
 
-	// 创建 release
+	// 创建 release - Create release
 	release := &github.RepositoryRelease{
 		TagName: &r.TagName,
 		Name:    &releaseTitle,
@@ -43,7 +43,7 @@ func CreateRelease(r model.Metadata) {
 		log.Fatal(err)
 	}
 
-	// 打包目录
+	// 打包目录 - Archive directory
 	pluginDir := filepath.Join(RootPath, "plugins", r.PathName)
 	//pluginPathName := "."
 	zipFileName := filepath.Join("/tmp", fmt.Sprintf("%s.v%s", r.Name, r.Version)+".zip")
@@ -52,14 +52,14 @@ func CreateRelease(r model.Metadata) {
 		panic(err)
 	}
 
-	// 上传压缩文件作为附件
+	// 上传压缩文件作为附件 - Upload zip file as attachment
 	attachmentFile, err := os.Open(zipFileName)
 	if err != nil {
 		panic(err)
 	}
 	defer attachmentFile.Close()
 
-	attachmentName := zipFileName // 替换为你想要的附件名称
+	attachmentName := zipFileName
 
 	opt := &github.UploadOptions{
 		Name: attachmentName,
@@ -72,7 +72,7 @@ func CreateRelease(r model.Metadata) {
 
 	fmt.Printf("Uploaded attachment: %s\n", attachmentName)
 
-	// 清理临时压缩文件
+	// 清理临时压缩文件 - Clean up temporary zip file
 	if err := os.Remove(zipFileName); err != nil {
 		log.Println("Error deleting zip file:", err)
 	}
@@ -81,8 +81,8 @@ func CreateRelease(r model.Metadata) {
 }
 
 func RenderMarkdown(markdown string) string {
-	// 使用 GitHub API https://api.github.com/markdown
-	// 请见 https://docs.github.com/zh/free-pro-team@latest/rest/markdown/markdown?apiVersion=2022-11-28#render-a-markdown-document
+	// Use GitHub API https://api.github.com/markdown
+	// https://docs.github.com/zh/free-pro-team@latest/rest/markdown/markdown?apiVersion=2022-11-28#render-a-markdown-document
 
 	renderedHTML, _, err := GitHubClient.Markdown(context.Background(), markdown,
 		&github.MarkdownOptions{

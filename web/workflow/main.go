@@ -14,6 +14,7 @@ var (
 
 func main() {
 	// 遍历 plugins 目录下的所有插件，读取各自的 metadata.yaml， 检查是否符合规范，得到 []Metadata
+	// Range all plugins in plugins directory, read metadata.yaml, check if it is valid, get []Metadata
 	pluginsDir := filepath.Join(RootPath, "plugins")
 	pluginDirs, _ := os.ReadDir(pluginsDir)
 	var ans []model.Metadata
@@ -28,7 +29,7 @@ func main() {
 				os.Exit(1)
 			}
 
-			// 解析 yaml
+			// 解析 yaml - Parse yaml
 			var metadata model.Metadata
 			err = yaml.NewDecoder(metadataFile).Decode(&metadata)
 			metadata.PathName = f.Name()
@@ -42,6 +43,7 @@ func main() {
 	}
 
 	// 遍历 []Metadata，如果此版本没有在 tag 出现过，则打上新 tag 并 release，同时更新索引文件
+	// Range []Metadata, if this version has not appeared in tag, add new tag and release, update index file
 	for _, metadata := range ans {
 		if exist, err := AddTag(Repo, metadata.TagName); exist {
 			oldTag, _ := Repo.Tag(metadata.TagName)
@@ -53,7 +55,7 @@ func main() {
 
 		//CreateRelease(metadata.TagName)
 		NewReleases = append(NewReleases, metadata)
-		// 更新索引文件
+		// 更新索引文件 - Update index file
 		NewVersions = append(NewVersions, metadata)
 		//AddVersionToIndex(metadata)
 	}

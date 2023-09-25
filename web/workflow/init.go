@@ -29,7 +29,7 @@ func init() {
 		os.Exit(1)
 	}
 
-	// 打开仓库
+	// 打开仓库 - Open repository
 	var err error
 	Repo, err = git.PlainOpen(RootPath)
 	if err != nil {
@@ -49,7 +49,7 @@ func init() {
 	//RunCommand("cd " + RootPath)
 	RunCommand("git checkout cache")
 
-	// 读取 index.json 文件
+	// 读取 index.json 文件 - Read index.json
 	pluginListFile, err := os.Open(IndexPath)
 	if err != nil {
 		panic(err)
@@ -57,7 +57,7 @@ func init() {
 
 	pluginList := template.PluginList{}
 
-	// 解析 json
+	// 解析 json - Parse json
 	err = json.NewDecoder(pluginListFile).Decode(&pluginList)
 	if err != nil {
 		panic(err)
