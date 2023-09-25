@@ -1,6 +1,6 @@
 # Example
 
-This is an example plugin. #2
+This is an example plugin. #3
 
 ## Usage
 
