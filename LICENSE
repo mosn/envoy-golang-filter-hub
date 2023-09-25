@@ -199,3 +199,16 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+=======================================================================
+Additional Notice:
+
+This project includes code and resources from the GitHub Markdown CSS project, which is licensed under the MIT License.
+
+GitHub Markdown CSS:
+https://github.com/sindresorhus/github-markdown-css
+
+MIT License:
+https://opensource.org/licenses/MIT
+
+Please note that the MIT License applies only to the GitHub Markdown CSS code and resources, and the terms of the Apache License apply to the rest of this project.
