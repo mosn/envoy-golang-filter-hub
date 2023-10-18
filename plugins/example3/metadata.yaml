@@ -1,0 +1,7 @@
+name: Third Example
+version: 1.0.16
+category: category-B
+description: |
+  This is an example plugin.
+  It does nothing.
+  It is a good starting point for new plugins.
