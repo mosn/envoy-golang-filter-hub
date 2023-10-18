@@ -1,7 +1,0 @@
-name: AnotherExample
-version: 1.0.10
-category: category-A
-description: |
-  This is another example plugin.
-  It does nothing.
-  It is a good starting point for new plugins.
